@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class TempestController : MonoBehaviour
 {
+    public Vector3 endpoint;
+    public GameObject bulletPrefab;
+    public GameObject enemyPrefab;
+    public float bulletSpeed = 0.5f;
 
-    private int loc;
+    int hp;
+    int loc;
     int maxLoc;
     List<GameObject> movingPads = new List<GameObject>();
 
     public int Loc { get => loc; set => loc = value; }
+    public int Hp { get => hp; set => hp = value; }
 
 
     // Start is called before the first frame update
     void Start()
     {
         loc = 0;
+        hp = 0;
         GameObject padsParent = GameObject.Find("MovingPads").gameObject;
         foreach (Transform child in padsParent.transform)
         {
@@ -53,6 +60,7 @@ public class TempestController : MonoBehaviour
 
     void Fire()
     {
+        GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
 
     }
     
@@ -92,6 +100,11 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("Can't go right");
         }
+    }
+
+    void BulletMove()
+    {
+
     }
 
 }
