@@ -5,9 +5,9 @@ using UnityEngine;
 public class TempestController : MonoBehaviour
 {
     public Vector3 endpoint;
-    public GameObject bulletPrefab;
+
     public GameObject enemyPrefab;
-    public float bulletSpeed = 0.5f;
+
 
     int hp;
     int loc;
@@ -40,27 +40,25 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("X down");
             Fire();
-            
         }
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Debug.Log("Left arrow down");
             MoveLeft();
-            
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Debug.Log("Right arrow down");
             MoveRight();
-
         }
     }
 
 
     void Fire()
     {
-        GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
+        BulletsController.bc.NewBullets(gameObject.transform.position, endpoint);
 
     }
     
