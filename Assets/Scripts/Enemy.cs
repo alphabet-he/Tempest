@@ -7,15 +7,26 @@ public class Enemy : MonoBehaviour
     float enemySpeed;
     Vector3 endpoint;
     int loc;
+    float shootFreq;
+    float shootAfter;
 
     public float EnemySpeed { get => enemySpeed; set => enemySpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
     public int Loc { get => loc; set => loc = value; }
+    public float ShootFreq { get => shootFreq; set => shootFreq = value; }
+    public float ShootAfter { get => shootAfter; set => shootAfter = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         gameObject.tag = "Enemy";
+        InvokeRepeating("Shoot", shootAfter, shootFreq);
+    }
+
+    void Shoot()
+    {
+        
+        BulletController.bc.NewBullets(gameObject.transform.position, endpoint, false);
     }
 
     // Update is called once per frame

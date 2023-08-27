@@ -1158,10 +1158,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 7496805320710591676, guid: 77fd06ec1f42c0546b9fc1dc23e55f0f, type: 3}
-  enemyGenerateAfter: 2
-  enemyGenerateFreq: 3
-  enemySpeed: 1.2
+  generateAfter: 2
+  generateFreq: 1.5
+  enemySpeed: 1.5
   defeatedScore: 1
+  shootFreq: 1
+  shootAfter: 0.2
 --- !u!1 &1782941027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 874541064793947875, guid: 2f733ff73d0ce524ca2f9cfc33e1b16a, type: 3}
-  bulletSpeed: 1
+  bulletSpeed: 2.5
 --- !u!4 &2024239828
 Transform:
   m_ObjectHideFlags: 0

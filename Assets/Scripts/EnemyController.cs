@@ -7,10 +7,12 @@ public class EnemyController : MonoBehaviour
 
 {
     public GameObject enemyPrefab;
-    public float enemyGenerateAfter = 10.0f;
-    public float enemyGenerateFreq = 3.0f; // enemy generate frequency
+    public float generateAfter = 3.0f;
+    public float generateFreq = 3.0f; // enemy generate frequency
     public float enemySpeed = 1.2f; // enemy moving speed
     public int defeatedScore = 1; // the score gained by player if the enemy is defeated
+    public float shootFreq = 0.3f;
+    public float shootAfter = 0.2f;
     public static EnemyController ec;
     List<Tuple<GameObject, Vector3>> enemies = new List<Tuple<GameObject, Vector3>>(); // bullet object - destination
 
@@ -33,7 +35,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("NewEnemy", enemyGenerateAfter, enemyGenerateFreq);
+        InvokeRepeating("NewEnemy", generateAfter, generateFreq);
     }
 
     void NewEnemy()
@@ -48,6 +50,8 @@ public class EnemyController : MonoBehaviour
         enemy.transform.GetChild(0).GetComponent<Enemy>().EnemySpeed = enemySpeed;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Endpoint = v;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Loc = loc;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreq = shootFreq;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
     }
 
     // Update is called once per frame

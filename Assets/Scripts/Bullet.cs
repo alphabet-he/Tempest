@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         if(identity) { gameObject.tag = "PlayerBullet"; }
-        else { gameObject.tag = "EnemyBullet"; }
+        else { gameObject.tag = "EnemyBullet"; gameObject.GetComponent<SpriteRenderer>().color = Color.red; }
     }
 
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         if (ratio >= 1) // reach the end
         {
             gameObject.transform.position = endpoint; // directly show at the end point
-            Destroy(gameObject, 1); // destroy bullet
+            Destroy(gameObject); // destroy bullet
         }
         else // move bullet
         {
@@ -39,9 +39,19 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Enemy" || other.tag == "EnemyBullet")
+        if (identity)
         {
-            Destroy(gameObject);
+            if (other.tag == "Enemy" || other.tag == "EnemyBullet")
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            if(other.tag == "Tempest" || other.tag == "PlayerBullet")
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
