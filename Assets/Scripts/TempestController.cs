@@ -7,7 +7,7 @@ public class TempestController : MonoBehaviour
     public Vector3 endpoint;
 
     int score;
-    int hp;
+    public int hp = 2;
     int loc;
     int maxLoc;
     public List<GameObject> lanes = new List<GameObject>();
@@ -15,8 +15,9 @@ public class TempestController : MonoBehaviour
     public int Loc { get => loc; set => loc = value; }
     public int Hp { get => hp; set => hp = value; }
     public int MaxLoc { get => maxLoc; set => maxLoc = value; }
+    public int Score { get => score; set => score = value; }
 
-    public static TempestController tp;
+    public static TempestController tc;
     
     public System.Random rnd = new System.Random();
 
@@ -24,12 +25,12 @@ public class TempestController : MonoBehaviour
     private void Awake()
     {
 
-        if (tp == null)
+        if (tc == null)
         {
             DontDestroyOnLoad(gameObject);
-            tp = this;
+            tc = this;
         }
-        else if (tp != null)
+        else if (tc != null)
         {
             Destroy(gameObject);
         }
@@ -38,8 +39,9 @@ public class TempestController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.tag = "Tempest";
         loc = 0;
-        hp = 0;
+        score = 0;
         GameObject padsParent = GameObject.Find("MovingPads").gameObject;
         foreach (Transform child in padsParent.transform)
         {
@@ -75,7 +77,7 @@ public class TempestController : MonoBehaviour
 
     void Fire()
     {
-        BulletController.bc.NewBullets(gameObject.transform.position, endpoint);
+        BulletController.bc.NewBullets(gameObject.transform.position, endpoint, true);
 
     }
     
@@ -114,6 +116,19 @@ public class TempestController : MonoBehaviour
         else
         {
             Debug.Log("Can't go right");
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Enemy" || other.tag == "EnemyBullet")
+        {
+            hp--;
+            Debug.Log(hp);
+            if(hp <= 0) // the player dies
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -7,9 +7,10 @@ public class EnemyController : MonoBehaviour
 
 {
     public GameObject enemyPrefab;
-    public float enemyGenerateAfter = 3.0f;
+    public float enemyGenerateAfter = 10.0f;
     public float enemyGenerateFreq = 3.0f; // enemy generate frequency
     public float enemySpeed = 1.2f; // enemy moving speed
+    public int defeatedScore = 1; // the score gained by player if the enemy is defeated
     public static EnemyController ec;
     List<Tuple<GameObject, Vector3>> enemies = new List<Tuple<GameObject, Vector3>>(); // bullet object - destination
 
@@ -37,14 +38,16 @@ public class EnemyController : MonoBehaviour
 
     void NewEnemy()
     {
-        GameObject enemy = Instantiate(enemyPrefab, TempestController.tp.endpoint, Quaternion.identity);
-        int loc = TempestController.tp.rnd.Next(0, TempestController.tp.MaxLoc + 1);
-        loc = TempestController.tp.rnd.Next(0, TempestController.tp.MaxLoc + 1);
-        GameObject destLane = TempestController.tp.lanes[loc];
+        GameObject enemy = Instantiate(enemyPrefab, TempestController.tc.endpoint, Quaternion.identity);
+        int loc = TempestController.tc.rnd.Next(0, TempestController.tc.MaxLoc + 1);
+        loc = TempestController.tc.rnd.Next(0, TempestController.tc.MaxLoc + 1);
+        GameObject destLane = TempestController.tc.lanes[loc];
         Vector3 v0 = destLane.GetComponent<LineRenderer>().GetPosition(0);
         Vector3 v1 = destLane.GetComponent<LineRenderer>().GetPosition(1);
         Vector3 v = (v0 + v1) * 0.5f;
-        enemies.Add(new Tuple<GameObject, Vector3>(enemy, v)); // enemy moves towards one lane
+        enemy.transform.GetChild(0).GetComponent<Enemy>().EnemySpeed = enemySpeed;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().Endpoint = v;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().Loc = loc;
     }
 
     // Update is called once per frame
@@ -69,5 +72,11 @@ public class EnemyController : MonoBehaviour
 
             }
         }
+    }
+
+
+    void OnTriggerEnter2D(Collider2D cd)
+    {
+        Debug.Log("Also collided");
     }
 }
