@@ -7,26 +7,29 @@ public class Enemy : MonoBehaviour
     float enemySpeed;
     Vector3 endpoint;
     int loc;
-    float shootFreq;
+    float shootFreqMin;
+    float shootFreqMax;
     float shootAfter;
 
     public float EnemySpeed { get => enemySpeed; set => enemySpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
     public int Loc { get => loc; set => loc = value; }
-    public float ShootFreq { get => shootFreq; set => shootFreq = value; }
     public float ShootAfter { get => shootAfter; set => shootAfter = value; }
+    public float ShootFreqMin { get => shootFreqMin; set => shootFreqMin = value; }
+    public float ShootFreqMax { get => shootFreqMax; set => shootFreqMax = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         gameObject.tag = "Enemy";
-        InvokeRepeating("Shoot", shootAfter, shootFreq);
+        Invoke("Shoot", shootAfter);
     }
 
     void Shoot()
     {
-        
         BulletController.bc.NewBullets(gameObject.transform.position, endpoint, false);
+        float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
+        Invoke("Shoot", randomTime);
     }
 
     // Update is called once per frame

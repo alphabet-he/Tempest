@@ -1162,8 +1162,9 @@ MonoBehaviour:
   generateFreq: 1.5
   enemySpeed: 1.5
   defeatedScore: 1
-  shootFreq: 1
-  shootAfter: 0.2
+  shootFreqMin: 1.2
+  shootFreqMax: 1.8
+  shootAfter: 0.1
 --- !u!1 &1782941027
 GameObject:
   m_ObjectHideFlags: 0

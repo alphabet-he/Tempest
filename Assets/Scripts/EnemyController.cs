@@ -11,7 +11,8 @@ public class EnemyController : MonoBehaviour
     public float generateFreq = 3.0f; // enemy generate frequency
     public float enemySpeed = 1.2f; // enemy moving speed
     public int defeatedScore = 1; // the score gained by player if the enemy is defeated
-    public float shootFreq = 0.3f;
+    public float shootFreqMin = 0.3f;
+    public float shootFreqMax = 0.3f;
     public float shootAfter = 0.2f;
     public static EnemyController ec;
     List<Tuple<GameObject, Vector3>> enemies = new List<Tuple<GameObject, Vector3>>(); // bullet object - destination
@@ -50,7 +51,8 @@ public class EnemyController : MonoBehaviour
         enemy.transform.GetChild(0).GetComponent<Enemy>().EnemySpeed = enemySpeed;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Endpoint = v;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Loc = loc;
-        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreq = shootFreq;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
     }
 
