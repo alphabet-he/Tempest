@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletsController : MonoBehaviour
+public class BulletController : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public float bulletSpeed = 0.5f;
     List<Tuple<GameObject, Vector3>> bullets = new List<Tuple<GameObject, Vector3>>(); // bullet object - destination
 
-    public static BulletsController bc;
+    public static BulletController bc;
 
 
     private void Awake()

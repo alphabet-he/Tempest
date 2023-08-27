@@ -6,17 +6,34 @@ public class TempestController : MonoBehaviour
 {
     public Vector3 endpoint;
 
-    public GameObject enemyPrefab;
-
-
+    int score;
     int hp;
     int loc;
     int maxLoc;
-    List<GameObject> movingPads = new List<GameObject>();
+    public List<GameObject> lanes = new List<GameObject>();
 
     public int Loc { get => loc; set => loc = value; }
     public int Hp { get => hp; set => hp = value; }
+    public int MaxLoc { get => maxLoc; set => maxLoc = value; }
 
+    public static TempestController tp;
+    
+    public System.Random rnd = new System.Random();
+
+
+    private void Awake()
+    {
+
+        if (tp == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            tp = this;
+        }
+        else if (tp != null)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +43,9 @@ public class TempestController : MonoBehaviour
         GameObject padsParent = GameObject.Find("MovingPads").gameObject;
         foreach (Transform child in padsParent.transform)
         {
-            movingPads.Add(child.gameObject);
+            lanes.Add(child.gameObject);
         }
-        maxLoc = movingPads.Count-1;
+        maxLoc = lanes.Count-1;
         Debug.Log(maxLoc);
 
     }
@@ -58,14 +75,14 @@ public class TempestController : MonoBehaviour
 
     void Fire()
     {
-        BulletsController.bc.NewBullets(gameObject.transform.position, endpoint);
+        BulletController.bc.NewBullets(gameObject.transform.position, endpoint);
 
     }
     
 
     void MoveTempest()
     {
-        GameObject pad = movingPads [loc];
+        GameObject pad = lanes [loc];
         Vector3 v0 = pad.GetComponent<LineRenderer>().GetPosition(0);
         Vector3 v1 = pad.GetComponent<LineRenderer>().GetPosition(1);
         Vector3 v = (v0 + v1) * 0.5f;
@@ -98,11 +115,6 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("Can't go right");
         }
-    }
-
-    void BulletMove()
-    {
-
     }
 
 }
