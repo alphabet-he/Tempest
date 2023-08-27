@@ -15,8 +15,9 @@ public class EnemyController : MonoBehaviour
     public float shootFreqMax = 0.3f;
     public float shootAfter = 0.2f;
     public static EnemyController ec;
-    List<Tuple<GameObject, Vector3>> enemies = new List<Tuple<GameObject, Vector3>>(); // bullet object - destination
+    List<List<GameObject>> enemies = new List<List<GameObject>>() { new List<GameObject>(), new List<GameObject>(), new List<GameObject>()};
 
+    public List<List<GameObject>> Enemies { get => enemies; set => enemies = value; }
 
     private void Awake()
     {
@@ -54,35 +55,13 @@ public class EnemyController : MonoBehaviour
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemies.Count > 0)
-        {
-            foreach (var enemy in enemies) //for each bullet, move
-            {
-                Vector3 pos = enemy.Item1.transform.position;
-                float ratio = Time.deltaTime * enemySpeed / Vector3.Distance(pos, enemy.Item2);
-                if (ratio >= 1) // reach the end
-                {
-                    enemy.Item1.transform.position = enemy.Item2; // directly show at the end point
-                }
-                else // move bullet
-                {
-                    pos.x += ratio * (enemy.Item2.x - pos.x);
-                    pos.y += ratio * (enemy.Item2.y - pos.y);
-                    enemy.Item1.transform.position = pos;
-                }
 
-            }
-        }
     }
 
-
-    void OnTriggerEnter2D(Collider2D cd)
-    {
-        Debug.Log("Also collided");
-    }
 }

@@ -78,6 +78,25 @@ public class TempestController : MonoBehaviour
     void Fire()
     {
         BulletController.bc.NewBullets(gameObject.transform.position, endpoint, true);
+        // remove all enemies on neighbouring edges
+        if (loc > 0)
+        {
+            foreach (var enemy in EnemyController.ec.Enemies[loc - 1])
+            {
+                Destroy(enemy);
+            }
+            EnemyController.ec.Enemies[loc - 1].Clear();
+        }
+        
+        if (loc < maxLoc)
+        {
+            foreach (var enemy in EnemyController.ec.Enemies[loc + 1])
+            {
+                Destroy(enemy);
+            }
+            EnemyController.ec.Enemies[loc + 1].Clear();
+        }
+        
 
     }
     

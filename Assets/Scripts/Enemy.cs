@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
         if (ratio >= 1) // reach the end
         {
             gameObject.transform.position = endpoint; // directly show at the end point
+            EnemyController.ec.Enemies[loc].Add(gameObject);
         }
         else // move bullet
         {
