@@ -14,8 +14,9 @@ public class EnemyController : MonoBehaviour
     public float shootFreqMin = 0.3f;
     public float shootFreqMax = 0.3f;
     public float shootAfter = 0.2f;
+    public float chaseFreq = 1.0f;
     public static EnemyController ec;
-    List<List<GameObject>> enemies = new List<List<GameObject>>() { new List<GameObject>(), new List<GameObject>(), new List<GameObject>()};
+    List<List<GameObject>> enemies = new List<List<GameObject>>();
 
     public List<List<GameObject>> Enemies { get => enemies; set => enemies = value; }
 
@@ -37,6 +38,10 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = 0; i < TempestController.tc.MaxLoc + 1; i++)
+        {
+            enemies.Add(new List<GameObject>());
+        }
         InvokeRepeating("NewEnemy", generateAfter, generateFreq);
     }
 
@@ -45,7 +50,7 @@ public class EnemyController : MonoBehaviour
         GameObject enemy = Instantiate(enemyPrefab, TempestController.tc.endpoint, Quaternion.identity);
         int loc = TempestController.tc.rnd.Next(0, TempestController.tc.MaxLoc + 1);
         loc = TempestController.tc.rnd.Next(0, TempestController.tc.MaxLoc + 1);
-        GameObject destLane = TempestController.tc.lanes[loc];
+        GameObject destLane = TempestController.tc.Lanes[loc];
         Vector3 v0 = destLane.GetComponent<LineRenderer>().GetPosition(0);
         Vector3 v1 = destLane.GetComponent<LineRenderer>().GetPosition(1);
         Vector3 v = (v0 + v1) * 0.5f;
@@ -55,6 +60,7 @@ public class EnemyController : MonoBehaviour
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().ChaseFreq = chaseFreq;
 
     }
 

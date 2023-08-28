@@ -10,12 +10,13 @@ public class TempestController : MonoBehaviour
     public int hp = 2;
     int loc;
     int maxLoc;
-    public List<GameObject> lanes = new List<GameObject>();
+    List<GameObject> lanes = new List<GameObject>();
 
     public int Loc { get => loc; set => loc = value; }
     public int Hp { get => hp; set => hp = value; }
     public int MaxLoc { get => maxLoc; set => maxLoc = value; }
     public int Score { get => score; set => score = value; }
+    public List<GameObject> Lanes { get => lanes; set => lanes = value; }
 
     public static TempestController tc;
     
@@ -45,10 +46,11 @@ public class TempestController : MonoBehaviour
         GameObject padsParent = GameObject.Find("MovingPads").gameObject;
         foreach (Transform child in padsParent.transform)
         {
-            lanes.Add(child.gameObject);
+            Lanes.Add(child.gameObject);
         }
-        maxLoc = lanes.Count-1;
+        maxLoc = Lanes.Count-1;
         Debug.Log(maxLoc);
+        MoveTempest();
 
     }
 
@@ -103,7 +105,7 @@ public class TempestController : MonoBehaviour
 
     void MoveTempest()
     {
-        GameObject pad = lanes [loc];
+        GameObject pad = Lanes [loc];
         Vector3 v0 = pad.GetComponent<LineRenderer>().GetPosition(0);
         Vector3 v1 = pad.GetComponent<LineRenderer>().GetPosition(1);
         Vector3 v = (v0 + v1) * 0.5f;
