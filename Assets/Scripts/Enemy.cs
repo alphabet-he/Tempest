@@ -81,16 +81,14 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "PlayerBullet")
         {
-            Destroy(gameObject); // enemy defeated
+            Debug.Log("Shoot Enemy!");
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
             TempestController.tc.Score += EnemyController.ec.defeatedScore; // get score
         }
         else if(other.tag == "Tempest")
         {
-            Destroy(gameObject); // enemy disappear
-        }
-        else if(other.tag == "Ally")
-        {
-            Destroy(gameObject);
+            Debug.Log("Catch Tempest!");
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy disappear
         }
     }
 }

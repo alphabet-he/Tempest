@@ -45,7 +45,7 @@ public class TempestController : MonoBehaviour
         }
         else if (tc != null)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
         }
     }
 
@@ -126,6 +126,8 @@ public class TempestController : MonoBehaviour
             foreach (var enemy in EnemyController.ec.Enemies[loc - 1])
             {
                 Destroy(enemy);
+                Destroy(enemy.transform.parent.gameObject);
+                Debug.Log("Shoot enemy!");
             }
             EnemyController.ec.Enemies[loc - 1].Clear();
         }
@@ -135,6 +137,8 @@ public class TempestController : MonoBehaviour
             foreach (var enemy in EnemyController.ec.Enemies[loc + 1])
             {
                 Destroy(enemy);
+                Destroy(enemy.transform.parent.gameObject);
+                Debug.Log("Shoot enemy!");
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
         }
@@ -199,7 +203,7 @@ public class TempestController : MonoBehaviour
             Debug.Log(hp);
             if(hp <= 0) // the player dies
             {
-                Destroy(gameObject);
+                Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
             }
         }
     }

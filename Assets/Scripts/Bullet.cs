@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         if (ratio >= 1) // reach the end
         {
             gameObject.transform.position = endpoint; // directly show at the end point
-            Destroy(gameObject); // destroy bullet
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // destroy bullet
         }
         else // move bullet
         {
@@ -39,18 +39,18 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (identity)
+        if (identity) // if is player's bullets
         {
             if (other.tag == "Enemy" || other.tag == "EnemyBullet")
             {
-                Destroy(gameObject);
+                Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
             }
         }
-        else
+        else // if is enemy's bullets
         {
-            if(other.tag == "Tempest" || other.tag == "PlayerBullet")
+            if(other.tag == "Tempest" || other.tag == "PlayerBullet" || other.tag == "Ally")
             {
-                Destroy(gameObject);
+                Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
             }
         }
     }

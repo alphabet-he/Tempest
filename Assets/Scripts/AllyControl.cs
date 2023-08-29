@@ -22,7 +22,7 @@ public class AllyControl : MonoBehaviour
         }
         else if (ac != null)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
         }
     }
 
