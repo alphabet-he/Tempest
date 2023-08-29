@@ -80,7 +80,12 @@ public class TempestController : MonoBehaviour
         {
             AllyLanes1.Add(child.gameObject);
         }
-
+        GameObject healingParent = GameObject.Find("HealingEffect").gameObject;
+        foreach (Transform child in healingParent.transform)
+        {
+            healingEffect.Add(child.gameObject);
+            child.gameObject.SetActive(false);
+        }
 
         maxLoc = PlayerLanes.Count-1;
         Debug.Log(maxLoc);
@@ -204,6 +209,7 @@ public class TempestController : MonoBehaviour
             if(hp <= 0) // the player dies
             {
                 Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
+                Debug.Log("Tempest died");
             }
         }
     }
