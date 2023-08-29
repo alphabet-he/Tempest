@@ -4,19 +4,34 @@ using UnityEngine;
 
 public class TempestController : MonoBehaviour
 {
-    public Vector3 endpoint;
+    public float healingEffectLasting = 1f;
 
     int score;
-    public int hp = 2;
+    public int hp = 3;
     int loc;
     int maxLoc;
-    List<GameObject> lanes = new List<GameObject>();
+
+    List<GameObject> startLanes = new List<GameObject>();
+    List<GameObject> playerLanes = new List<GameObject>();
+    List<GameObject> allyLanes0 = new List<GameObject>();
+    List<GameObject> allyLanes1 = new List<GameObject>();
+    List<GameObject> endLanes = new List<GameObject>();
+
+    List<List<Ally>> allies = new List<List<Ally>>();
+
+    List<GameObject> healingEffect = new List<GameObject>();
+
 
     public int Loc { get => loc; set => loc = value; }
     public int Hp { get => hp; set => hp = value; }
     public int MaxLoc { get => maxLoc; set => maxLoc = value; }
     public int Score { get => score; set => score = value; }
-    public List<GameObject> Lanes { get => lanes; set => lanes = value; }
+    public List<GameObject> StartLanes { get => startLanes; set => startLanes = value; }
+    public List<GameObject> PlayerLanes { get => playerLanes; set => playerLanes = value; }
+    public List<GameObject> AllyLanes0 { get => allyLanes0; set => allyLanes0 = value; }
+    public List<GameObject> AllyLanes1 { get => allyLanes1; set => allyLanes1 = value; }
+    public List<GameObject> EndLanes { get => endLanes; set => endLanes = value; }
+    public List<List<Ally>> Allies { get => allies; set => allies = value; }
 
     public static TempestController tc;
     
@@ -46,9 +61,44 @@ public class TempestController : MonoBehaviour
         GameObject padsParent = GameObject.Find("MovingPads").gameObject;
         foreach (Transform child in padsParent.transform)
         {
-            Lanes.Add(child.gameObject);
+            PlayerLanes.Add(child.gameObject);
         }
-        maxLoc = Lanes.Count-1;
+        GameObject startpadsParent = GameObject.Find("StartPads").gameObject;
+        foreach (Transform child in startpadsParent.transform)
+        {
+            StartLanes.Add(child.gameObject);
+        }
+        GameObject endpadsParent = GameObject.Find("EndPads").gameObject;
+        foreach (Transform child in endpadsParent.transform)
+        {
+            EndLanes.Add(child.gameObject);
+        }
+        GameObject allypadsParent0 = GameObject.Find("AllyPads0").gameObject;
+        foreach (Transform child in allypadsParent0.transform)
+        {
+            AllyLanes0.Add(child.gameObject);
+        }
+        GameObject allypadsParent1 = GameObject.Find("AllyPads1").gameObject;
+        foreach (Transform child in allypadsParent1.transform)
+        {
+            AllyLanes1.Add(child.gameObject);
+        }
+        GameObject allyParents = GameObject.Find("Allies").gameObject;
+        int i = -1;
+        foreach (Transform childgroup in allyParents.transform)
+        {
+            i++;
+            List<Ally> group = new List<Ally>();
+            foreach (Transform child in childgroup.transform)
+            {
+                group.Add(child.gameObject.GetComponent<Ally>());
+                child.gameObject.GetComponent<Ally>().Loc = i;
+            }
+            allies.Add(group);
+        }
+
+
+        maxLoc = PlayerLanes.Count-1;
         Debug.Log(maxLoc);
         MoveTempest();
 
@@ -61,6 +111,12 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("X down");
             Fire();
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Debug.Log("Down arrow down");
+            StartCoroutine(Heal());
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -79,7 +135,7 @@ public class TempestController : MonoBehaviour
 
     void Fire()
     {
-        BulletController.bc.NewBullets(gameObject.transform.position, endpoint, true);
+        BulletController.bc.NewBullets(gameObject.transform.position, GetMid(StartLanes[loc]), true);
         // remove all enemies on neighbouring edges
         if (loc > 0)
         {
@@ -101,14 +157,24 @@ public class TempestController : MonoBehaviour
         
 
     }
-    
+
+
+    IEnumerator Heal()
+    {
+        int num = loc;
+        healingEffect[num].SetActive(true);
+        foreach(var ally in allies[num])
+        {
+            ally.changeInfection(0);
+        }
+        yield return new WaitForSeconds(healingEffectLasting);
+        healingEffect[num].SetActive(false);
+    }
 
     void MoveTempest()
     {
-        GameObject pad = Lanes [loc];
-        Vector3 v0 = pad.GetComponent<LineRenderer>().GetPosition(0);
-        Vector3 v1 = pad.GetComponent<LineRenderer>().GetPosition(1);
-        Vector3 v = (v0 + v1) * 0.5f;
+        GameObject pad = PlayerLanes [loc];
+        Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
     }
 
@@ -151,6 +217,14 @@ public class TempestController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    public Vector3 GetMid(GameObject lane)
+    {
+        Vector3 v0 = lane.GetComponent<LineRenderer>().GetPosition(0);
+        Vector3 v1 = lane.GetComponent<LineRenderer>().GetPosition(1);
+        Vector3 v = (v0 + v1) * 0.5f;
+        return v;
     }
 
 }

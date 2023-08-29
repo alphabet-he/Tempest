@@ -31,7 +31,6 @@ public class Enemy : MonoBehaviour
 
     void Shoot()
     {
-        if (onEdge) { return; }
         BulletController.bc.NewBullets(gameObject.transform.position, endpoint, false);
         TempestController.tc.rnd.NextDouble();
         float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
@@ -73,10 +72,8 @@ public class Enemy : MonoBehaviour
 
     void MoveOnLanes()
     {
-        GameObject pad = TempestController.tc.Lanes[loc];
-        Vector3 v0 = pad.GetComponent<LineRenderer>().GetPosition(0);
-        Vector3 v1 = pad.GetComponent<LineRenderer>().GetPosition(1);
-        Vector3 v = (v0 + v1) * 0.5f;
+        GameObject pad = TempestController.tc.PlayerLanes[loc];
+        Vector3 v = TempestController.tc.GetMid(pad);
         gameObject.transform.position = v;
     }
 

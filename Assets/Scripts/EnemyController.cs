@@ -47,13 +47,19 @@ public class EnemyController : MonoBehaviour
 
     void NewEnemy()
     {
-        GameObject enemy = Instantiate(enemyPrefab, TempestController.tc.endpoint, Quaternion.identity);
+        
         int loc = TempestController.tc.rnd.Next(0, TempestController.tc.MaxLoc + 1);
         loc = TempestController.tc.rnd.Next(0, TempestController.tc.MaxLoc + 1);
-        GameObject destLane = TempestController.tc.Lanes[loc];
-        Vector3 v0 = destLane.GetComponent<LineRenderer>().GetPosition(0);
-        Vector3 v1 = destLane.GetComponent<LineRenderer>().GetPosition(1);
-        Vector3 v = (v0 + v1) * 0.5f;
+        
+        GameObject startLane = TempestController.tc.StartLanes[loc];
+        Vector3 startv = TempestController.tc.GetMid(startLane);
+
+        GameObject destLane = TempestController.tc.EndLanes[loc];
+        Vector3 v = TempestController.tc.GetMid(destLane);
+        
+
+        GameObject enemy = Instantiate(enemyPrefab, startv, Quaternion.identity);
+
         enemy.transform.GetChild(0).GetComponent<Enemy>().EnemySpeed = enemySpeed;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Endpoint = v;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Loc = loc;
