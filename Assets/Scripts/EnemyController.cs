@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
         GameObject startLane = TempestController.tc.StartLanes[loc];
         Vector3 startv = TempestController.tc.GetMid(startLane);
 
-        GameObject destLane = TempestController.tc.EndLanes[loc];
+        GameObject destLane = TempestController.tc.PlayerLanes[loc];
         Vector3 v = TempestController.tc.GetMid(destLane);
         
 

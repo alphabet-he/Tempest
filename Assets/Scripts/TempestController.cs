@@ -17,8 +17,6 @@ public class TempestController : MonoBehaviour
     List<GameObject> allyLanes1 = new List<GameObject>();
     List<GameObject> endLanes = new List<GameObject>();
 
-    List<List<Ally>> allies = new List<List<Ally>>();
-
     List<GameObject> healingEffect = new List<GameObject>();
 
 
@@ -31,7 +29,6 @@ public class TempestController : MonoBehaviour
     public List<GameObject> AllyLanes0 { get => allyLanes0; set => allyLanes0 = value; }
     public List<GameObject> AllyLanes1 { get => allyLanes1; set => allyLanes1 = value; }
     public List<GameObject> EndLanes { get => endLanes; set => endLanes = value; }
-    public List<List<Ally>> Allies { get => allies; set => allies = value; }
 
     public static TempestController tc;
     
@@ -82,19 +79,6 @@ public class TempestController : MonoBehaviour
         foreach (Transform child in allypadsParent1.transform)
         {
             AllyLanes1.Add(child.gameObject);
-        }
-        GameObject allyParents = GameObject.Find("Allies").gameObject;
-        int i = -1;
-        foreach (Transform childgroup in allyParents.transform)
-        {
-            i++;
-            List<Ally> group = new List<Ally>();
-            foreach (Transform child in childgroup.transform)
-            {
-                group.Add(child.gameObject.GetComponent<Ally>());
-                child.gameObject.GetComponent<Ally>().Loc = i;
-            }
-            allies.Add(group);
         }
 
 
@@ -163,7 +147,7 @@ public class TempestController : MonoBehaviour
     {
         int num = loc;
         healingEffect[num].SetActive(true);
-        foreach(var ally in allies[num])
+        foreach(var ally in AllyControl.ac.Allies[num])
         {
             ally.changeInfection(0);
         }
