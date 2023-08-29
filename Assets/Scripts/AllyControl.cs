@@ -41,10 +41,12 @@ public class AllyControl : MonoBehaviour
                 group.Add(child.gameObject.GetComponent<Ally>());
                 child.gameObject.GetComponent<Ally>().Loc = i; // pass loc
                 // put game object
-                Debug.Log("putting");
                 if(j == 0)
                 {
+                    Vector3 v = TempestController.tc.GetMid(TempestController.tc.AllyLanes0[i]);
+                    Debug.Log(v);
                     child.gameObject.transform.position = TempestController.tc.GetMid(TempestController.tc.AllyLanes0[i]);
+                    Debug.Log(child.gameObject.transform.position);
                 }
                 else if(j == 1)
                 {
@@ -54,7 +56,6 @@ public class AllyControl : MonoBehaviour
                 {
                     Debug.Log("j count wrong");
                 }
-                
                 j++;
             }
             allies.Add(group);

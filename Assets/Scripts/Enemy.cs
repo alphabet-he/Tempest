@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
 
     void Shoot()
     {
-        BulletController.bc.NewBullets(gameObject.transform.position, endpoint, false);
+        BulletController.bc.NewBullets(gameObject.transform.position, TempestController.tc.GetMid(TempestController.tc.EndLanes[loc]), false);
         TempestController.tc.rnd.NextDouble();
         float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
         Invoke("Shoot", randomTime);
