@@ -14,7 +14,7 @@ public class Ally : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameObject.tag = "Ally";
     }
 
     // Update is called once per frame
@@ -33,8 +33,11 @@ public class Ally : MonoBehaviour
     {
         // explode
 
-
-        Destroy(gameObject);
+        if(other.tag == "EnemyBullet")
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
 
