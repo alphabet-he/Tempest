@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,8 @@ public class Menu : MonoBehaviour
 
     public void ControlsButton()
     {
-        SceneManager.LoadScene("Controls");
+        GetComponent< controlsMenu > ().controlsButton();
+        Debug.Log("help"); 
     }
 
     public void QuitButton()
