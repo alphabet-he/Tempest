@@ -88,5 +88,9 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject); // enemy disappear
         }
+        else if(other.tag == "Ally")
+        {
+            Destroy(gameObject);
+        }
     }
 }
