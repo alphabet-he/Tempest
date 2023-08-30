@@ -5,6 +5,7 @@ using UnityEngine;
 public class AllyControl : MonoBehaviour
 {
     public Animation explode;
+    public float fadeSpeed = 1f;
     List<List<Ally>> allies = new List<List<Ally>>();
 
     public List<List<Ally>> Allies { get => allies; set => allies = value; }
@@ -40,13 +41,12 @@ public class AllyControl : MonoBehaviour
                 // add to list
                 group.Add(child.gameObject.GetComponent<Ally>());
                 child.gameObject.GetComponent<Ally>().Loc = i; // pass loc
+                child.gameObject.GetComponent<Ally>().FadeSpeed = fadeSpeed; // pass fade time
                 // put game object
                 if (j == 0)
                 {
                     Vector3 v = TempestController.tc.GetMid(TempestController.tc.AllyLanes0[i]);
-                    Debug.Log(v);
                     child.gameObject.transform.position = TempestController.tc.GetMid(TempestController.tc.AllyLanes0[i]);
-                    Debug.Log(child.gameObject.transform.position);
                 }
                 else if (j == 1)
                 {

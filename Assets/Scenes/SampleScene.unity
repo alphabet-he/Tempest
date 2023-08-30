@@ -512,8 +512,8 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 1.227989, y: -2.8501701, z: 0}
   - {x: 0.427248, y: -3.1955516, z: 0}
+  - {x: 1.227989, y: -2.8501701, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1089,8 +1089,8 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 2.3, y: 0.55477524, z: 0}
   - {x: 2.190354, y: -0.9746139, z: 0}
+  - {x: 2.3, y: 0.55477524, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -5442,8 +5442,8 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: -1.2411056, y: -2.841912, z: 0}
   - {x: -1.8219556, y: -2.01831, z: 0}
+  - {x: -1.2411056, y: -2.841912, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -10097,6 +10097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explode: {fileID: 0}
+  fadeSpeed: 1
 --- !u!1 &1336356448
 GameObject:
   m_ObjectHideFlags: 0
@@ -12419,8 +12420,8 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: -2.3, y: 0.6, z: 0}
   - {x: -2.3, y: 3.3, z: 0}
+  - {x: -2.3, y: 0.6, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -12869,8 +12870,8 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: -1.8185525, y: -2, z: 0}
   - {x: -2.1499367, y: -0.9916134, z: 0}
+  - {x: -1.8185525, y: -2, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

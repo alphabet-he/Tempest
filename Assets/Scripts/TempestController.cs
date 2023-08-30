@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempestController : MonoBehaviour
@@ -159,7 +161,11 @@ public class TempestController : MonoBehaviour
         Debug.Log(healingEffect.Count);
         foreach(var ally in AllyControl.ac.Allies[num])
         {
-            ally.changeInfection(0);
+            if (!ally.IsDestroyed())
+            {
+                ally.heal();
+            }
+            
         }
         yield return new WaitForSeconds(healingEffectLasting);
         healingEffect[num].SetActive(false);
@@ -170,6 +176,8 @@ public class TempestController : MonoBehaviour
         GameObject pad = PlayerLanes [loc];
         Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
+        float r = RotateToCenter(gameObject, StartLanes[loc]);
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, r));
     }
 
     void MoveLeft()
@@ -208,7 +216,7 @@ public class TempestController : MonoBehaviour
             Debug.Log(hp);
             if(hp <= 0) // the player dies
             {
-                Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
+                Destroy(gameObject);
                 Debug.Log("Tempest died");
             }
         }
@@ -220,6 +228,20 @@ public class TempestController : MonoBehaviour
         Vector3 v1 = lane.GetComponent<LineRenderer>().GetPosition(1);
         Vector3 v = (v0 + v1) * 0.5f;
         return v;
+    }
+
+    public float RotateToCenter(GameObject toRotate, GameObject destLane)
+    {
+        Vector3 v0 = toRotate.transform.position;
+        Vector3 v1 = GetMid(destLane);
+        if(v0.x == v1.x) { return 0; }
+        else
+        {
+            float ret = (float)(System.Math.Atan((v0.y - v1.y) / (v0.x - v1.x)) * 180 / System.Math.PI);
+            ret = 180 - Math.Abs(ret);
+            return ret;
+        }
+
     }
 
 }
