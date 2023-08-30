@@ -162,7 +162,7 @@ public class TempestController : MonoBehaviour
         int num = loc;
         healingEffect[num].SetActive(true);
         Debug.Log(healingEffect.Count);
-        foreach(var ally in AllyControl.ac.Allies[num])
+        foreach(var ally in AllyController.ac.Allies[num])
         {
             if (!ally.IsDestroyed())
             {
