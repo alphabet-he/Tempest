@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AllyControl : MonoBehaviour
+public class AllyController : MonoBehaviour
 {
     public Animation explode;
+    public float fadeSpeed = 0.5f;
     List<List<Ally>> allies = new List<List<Ally>>();
 
     public List<List<Ally>> Allies { get => allies; set => allies = value; }
-    public static AllyControl ac;
+    public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
+
+    public static AllyController ac;
 
 
 
@@ -40,13 +43,12 @@ public class AllyControl : MonoBehaviour
                 // add to list
                 group.Add(child.gameObject.GetComponent<Ally>());
                 child.gameObject.GetComponent<Ally>().Loc = i; // pass loc
+                child.gameObject.GetComponent<Ally>().FadeSpeed = FadeSpeed; // pass fade time
                 // put game object
                 if (j == 0)
                 {
                     Vector3 v = TempestController.tc.GetMid(TempestController.tc.AllyLanes0[i]);
-                    Debug.Log(v);
                     child.gameObject.transform.position = TempestController.tc.GetMid(TempestController.tc.AllyLanes0[i]);
-                    Debug.Log(child.gameObject.transform.position);
                 }
                 else if (j == 1)
                 {

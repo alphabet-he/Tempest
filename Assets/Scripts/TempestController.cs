@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempestController : MonoBehaviour
@@ -130,9 +132,12 @@ public class TempestController : MonoBehaviour
         {
             foreach (var enemy in EnemyController.ec.Enemies[loc - 1])
             {
-                Destroy(enemy);
-                Destroy(enemy.transform.parent.gameObject);
-                Debug.Log("Shoot enemy!");
+                if (!enemy.IsDestroyed())
+                {
+                    Destroy(enemy);
+                    Destroy(enemy.transform.parent.gameObject);
+                    Debug.Log("Shoot enemy!");
+                }
             }
             EnemyController.ec.Enemies[loc - 1].Clear();
         }
@@ -157,9 +162,13 @@ public class TempestController : MonoBehaviour
         int num = loc;
         healingEffect[num].SetActive(true);
         Debug.Log(healingEffect.Count);
-        foreach(var ally in AllyControl.ac.Allies[num])
+        foreach(var ally in AllyController.ac.Allies[num])
         {
-            ally.changeInfection(0);
+            if (!ally.IsDestroyed())
+            {
+                ally.heal();
+            }
+            
         }
         yield return new WaitForSeconds(healingEffectLasting);
         healingEffect[num].SetActive(false);
@@ -170,6 +179,13 @@ public class TempestController : MonoBehaviour
         GameObject pad = PlayerLanes [loc];
         Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
+        float angle = RotateToCenter(gameObject, GetMid(startLanes[loc]));
+        if(loc >= maxLoc / 2)
+        {
+            angle += 180;
+        }
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        //RotateToCenter(gameObject, StartLanes[loc]);
     }
 
     void MoveLeft()
@@ -208,7 +224,7 @@ public class TempestController : MonoBehaviour
             Debug.Log(hp);
             if(hp <= 0) // the player dies
             {
-                Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
+                Destroy(gameObject);
                 Debug.Log("Tempest died");
             }
         }
@@ -220,6 +236,21 @@ public class TempestController : MonoBehaviour
         Vector3 v1 = lane.GetComponent<LineRenderer>().GetPosition(1);
         Vector3 v = (v0 + v1) * 0.5f;
         return v;
+    }
+
+    public float RotateToCenter(GameObject toRotate, Vector3 targ)
+    {
+        targ.z = 0f;
+
+        Vector3 objectPos = toRotate.transform.position;
+        targ.x = targ.x - objectPos.x;
+        targ.y = targ.y - objectPos.y;
+
+        float angle = Mathf.Atan2(targ.x, targ.y) * Mathf.Rad2Deg;
+        //Debug.Log(angle);
+        if (angle < 0) { angle += 180; }
+        return angle * (-1);
+
     }
 
 }
