@@ -132,9 +132,12 @@ public class TempestController : MonoBehaviour
         {
             foreach (var enemy in EnemyController.ec.Enemies[loc - 1])
             {
-                Destroy(enemy);
-                Destroy(enemy.transform.parent.gameObject);
-                Debug.Log("Shoot enemy!");
+                if (!enemy.IsDestroyed())
+                {
+                    Destroy(enemy);
+                    Destroy(enemy.transform.parent.gameObject);
+                    Debug.Log("Shoot enemy!");
+                }
             }
             EnemyController.ec.Enemies[loc - 1].Clear();
         }
@@ -176,7 +179,7 @@ public class TempestController : MonoBehaviour
         GameObject pad = PlayerLanes [loc];
         Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
-        float angle = RotateToCenter(gameObject, startLanes[loc]);
+        float angle = RotateToCenter(gameObject, GetMid(startLanes[loc]));
         if(loc >= maxLoc / 2)
         {
             angle += 180;
@@ -235,9 +238,8 @@ public class TempestController : MonoBehaviour
         return v;
     }
 
-    public float RotateToCenter(GameObject toRotate, GameObject destLane)
+    public float RotateToCenter(GameObject toRotate, Vector3 targ)
     {
-        Vector3 targ = GetMid(destLane);
         targ.z = 0f;
 
         Vector3 objectPos = toRotate.transform.position;

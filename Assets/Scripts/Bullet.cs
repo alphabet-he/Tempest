@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    int loc;
     float bulletSpeed;
     Vector3 endpoint;
     bool identity; // True - player, False - enemy 
@@ -11,12 +12,32 @@ public class Bullet : MonoBehaviour
     public float BulletSpeed { get => bulletSpeed; set => bulletSpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
     public bool Identity { get => identity; set => identity = value; }
+    public int Loc { get => loc; set => loc = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(identity) { gameObject.tag = "PlayerBullet"; }
-        else { gameObject.tag = "EnemyBullet"; gameObject.GetComponent<SpriteRenderer>().color = Color.red; }
+        float angle = TempestController.tc.RotateToCenter(gameObject, endpoint);
+        if (identity) 
+        { 
+            gameObject.tag = "PlayerBullet";
+            
+            if (endpoint.x>=0)
+            {
+                angle += 180;
+            }
+            
+        }
+        else 
+        { 
+            gameObject.tag = "EnemyBullet";
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            if (endpoint.x <= 0)
+            {
+                angle += 180;
+            }
+        }
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     // Update is called once per frame
