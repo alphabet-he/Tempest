@@ -22,7 +22,7 @@ public class BulletController : MonoBehaviour
         }
         else if (bc != null)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
         }
     }
 

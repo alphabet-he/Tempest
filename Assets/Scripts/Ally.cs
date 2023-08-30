@@ -31,11 +31,13 @@ public class Ally : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // explode
 
         if(other.tag == "EnemyBullet")
         {
-            Destroy(gameObject);
+            // explode
+
+
+            Destroy(gameObject); 
         }
         
     }

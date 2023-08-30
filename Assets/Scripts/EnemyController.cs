@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
         }
         else if (ec != null)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject);
         }
     }
 
