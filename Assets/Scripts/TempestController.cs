@@ -176,8 +176,13 @@ public class TempestController : MonoBehaviour
         GameObject pad = PlayerLanes [loc];
         Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
-        float r = RotateToCenter(gameObject, StartLanes[loc]);
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, r));
+        float angle = RotateToCenter(gameObject, startLanes[loc]);
+        if(loc >= maxLoc / 2)
+        {
+            angle += 180;
+        }
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        //RotateToCenter(gameObject, StartLanes[loc]);
     }
 
     void MoveLeft()
@@ -232,15 +237,17 @@ public class TempestController : MonoBehaviour
 
     public float RotateToCenter(GameObject toRotate, GameObject destLane)
     {
-        Vector3 v0 = toRotate.transform.position;
-        Vector3 v1 = GetMid(destLane);
-        if(v0.x == v1.x) { return 0; }
-        else
-        {
-            float ret = (float)(System.Math.Atan((v0.y - v1.y) / (v0.x - v1.x)) * 180 / System.Math.PI);
-            ret = 180 - Math.Abs(ret);
-            return ret;
-        }
+        Vector3 targ = GetMid(destLane);
+        targ.z = 0f;
+
+        Vector3 objectPos = toRotate.transform.position;
+        targ.x = targ.x - objectPos.x;
+        targ.y = targ.y - objectPos.y;
+
+        float angle = Mathf.Atan2(targ.x, targ.y) * Mathf.Rad2Deg;
+        //Debug.Log(angle);
+        if (angle < 0) { angle += 180; }
+        return angle * (-1);
 
     }
 
