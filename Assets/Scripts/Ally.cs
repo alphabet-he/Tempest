@@ -83,6 +83,7 @@ public class Ally : MonoBehaviour
         // visual effect
         //gameObject.GetComponent<SpriteRenderer>().color = Color.black; 
         gameObject.GetComponent<Animation>().clip = AllyController.ac.explode;
+        gameObject.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(AllyController.ac.explode.length);
         
         Destroy(gameObject);
