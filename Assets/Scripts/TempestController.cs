@@ -165,11 +165,6 @@ public class TempestController : MonoBehaviour
 
     }
 
-    void ClockDown()
-    {
-
-    }
-
 
     void CheckFireKey()
     {
@@ -409,6 +404,11 @@ public class TempestController : MonoBehaviour
                 AudioManager.Instance.PlaySFX("player_hurt");
             }
         }
+    }
+
+    public void EndGame()
+    {
+
     }
 
     public Vector3 GetMid(GameObject lane)
