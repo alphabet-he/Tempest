@@ -8,10 +8,12 @@ public class Ally : MonoBehaviour
     float fade = 1f;
     float fadeSpeed;
     bool isDissolving = false;
+    int groupLoc;
 
     public int Loc { get => loc; set => loc = value; }
     public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
     public bool IsDissolving { get => isDissolving; set => isDissolving = value; }
+    public int GroupLoc { get => groupLoc; set => groupLoc = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -54,14 +56,14 @@ public class Ally : MonoBehaviour
             StartCoroutine(Explode());
             // infect nearby cells
             AllyController.ac.Allies[loc].Remove(this);
-            foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving) a.IsDissolving = true; }
+            foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
             if(loc > 0)
             {
-                foreach (Ally a in AllyController.ac.Allies[loc-1]) { if (!a.IsDissolving) a.IsDissolving = true; }
+                foreach (Ally a in AllyController.ac.Allies[loc-1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
             }
             if(loc < TempestController.tc.MaxLoc)
             {
-                foreach (Ally a in AllyController.ac.Allies[loc+1]) { if (!a.IsDissolving) a.IsDissolving = true; }
+                foreach (Ally a in AllyController.ac.Allies[loc+1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
             }
 
         }
