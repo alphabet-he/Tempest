@@ -327,7 +327,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -2667,7 +2668,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -2761,7 +2763,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -3085,7 +3088,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -3652,7 +3656,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -3882,7 +3887,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -4511,7 +4517,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -4717,7 +4724,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -5675,7 +5683,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -6407,7 +6416,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -7056,7 +7066,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -7719,7 +7730,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -8296,7 +8308,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -8756,7 +8769,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -9312,7 +9326,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -9521,7 +9536,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -9730,7 +9746,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -10512,7 +10529,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -11279,7 +11297,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -11868,7 +11887,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -12774,11 +12794,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healingEffectLasting: 1
-  hp: 2
+  hp: 100
+  minimumShootHeldDuration: 0.2
   pressShootCD: 2
   holdShootCD: 0.4
   holdShootInterval: 0.15
   maxContinuousShoot: 5
+  minimumMoveHeldDuration: 0.8
+  pressMoveCD: 1
+  holdMoveCD: 0.2
+  holdMoveInterval: 0.1
 --- !u!212 &1167601809
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13869,7 +13894,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -13963,7 +13989,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -16778,7 +16805,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -16987,7 +17015,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -17468,7 +17497,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -20226,7 +20256,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -21375,7 +21406,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -21856,7 +21888,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -22201,7 +22234,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -22295,7 +22329,8 @@ Animation:
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
-  m_Animations: []
+  m_Animations:
+  - {fileID: 7400000, guid: c5a7f495932421e4892f77195a5bc9ee, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
