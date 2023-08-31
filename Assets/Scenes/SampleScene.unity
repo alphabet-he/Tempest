@@ -12799,6 +12799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healingEffectLasting: 1
   lifeCountPrefab: {fileID: 6552080669322475835, guid: 6703f0716d94ab34c9f93b6a4a3d9173, type: 3}
+  shootEnemyScore: 50
+  allyRemainingScore: 100
   hp: 3
   minimumShootHeldDuration: 0.2
   pressShootCD: 0.1
@@ -18498,12 +18500,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 7496805320710591676, guid: 77fd06ec1f42c0546b9fc1dc23e55f0f, type: 3}
   generateAfter: 2
-  generateFreq: 1
+  generateFreq: 1.3
   enemySpeed: 1.5
   defeatedScore: 1
-  shootFreqMin: 1.6
-  shootFreqMax: 3.2
-  shootAfter: 0.1
+  shootFreqMin: 0.3
+  shootFreqMax: 0.7
   chaseFreq: 0.75
 --- !u!1 &1706818737
 GameObject:
