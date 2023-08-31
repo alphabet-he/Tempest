@@ -26,7 +26,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         gameObject.tag = "Enemy";
-        Invoke("Shoot", shootAfter);
+        float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
+        Invoke("Shoot", randomTime);
     }
 
     void Shoot()
