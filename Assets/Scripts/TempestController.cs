@@ -22,6 +22,7 @@ public class TempestController : MonoBehaviour
     List<GameObject> endLanes = new List<GameObject>();
     List<GameObject> healingEffect = new List<GameObject>();
     List<GameObject> lifeCounts = new List<GameObject>();
+    GameObject scoreText;
 
 
     // control 
@@ -113,10 +114,24 @@ public class TempestController : MonoBehaviour
             child.gameObject.SetActive(false);
         }
 
-        for(int i = 0; i < hp; i++)
+        // put life count
+        GameObject lifeCount0 = GameObject.Find("Canvas/Panel/LifeCount").gameObject;
+        lifeCounts.Add(lifeCount0);
+        Vector3 parentPos = lifeCount0.transform.position;
+        GameObject img = lifeCount0.transform.GetChild(0).transform.GetChild(0).gameObject;
+        Vector3 relativePos = img.GetComponent<RectTransform>().position; // image position
+        float interval = img.GetComponent<RectTransform>().rect.width* 1.1f ;
+        for(int i = 0; i < hp -1; i++)
         {
-            GameObject life = Instantiate(poisonSmoke, Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            GameObject life = Instantiate(lifeCountPrefab, parentPos, Quaternion.identity);
+            life.transform.parent = lifeCount0.transform.parent;
+            lifeCounts.Add(life);
+            relativePos.x += interval;
+            life.transform.GetChild(0).transform.GetChild(0).position = relativePos;
         }
+
+        //find score text
+        scoreText = GameObject.Find("Canvas/Panel/Score").gameObject;
 
         maxLoc = PlayerLanes.Count-1;
         Debug.Log(maxLoc);
@@ -366,6 +381,8 @@ public class TempestController : MonoBehaviour
         if (other.tag == "Enemy" || other.tag == "EnemyBullet")
         {
             hp--;
+            lifeCounts[hp].SetActive(false);
+
             Debug.Log(hp);
             if(hp <= 0) // the player dies
             {
