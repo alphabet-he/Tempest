@@ -18653,6 +18653,7 @@ GameObject:
   - component: {fileID: 1722617033}
   - component: {fileID: 1722617035}
   - component: {fileID: 1722617034}
+  - component: {fileID: 1722617036}
   m_Layer: 5
   m_Name: Clockdown
   m_TagString: Untagged
@@ -18776,6 +18777,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722617032}
   m_CullTransparentMesh: 1
+--- !u!114 &1722617036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722617032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085265f9781f7324aabfece3bd7bb4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeLimit: 120
 --- !u!1 &1769431361
 GameObject:
   m_ObjectHideFlags: 0
