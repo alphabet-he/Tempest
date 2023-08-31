@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class TempestController : MonoBehaviour
 {
     public float healingEffectLasting = 1f;
     public GameObject lifeCountPrefab;
+    public int shootEnemyScore = 50;
+    public int allyRemainingScore = 100;
 
     int score;
     public int hp = 100;
@@ -132,6 +135,9 @@ public class TempestController : MonoBehaviour
 
         //find score text
         scoreText = GameObject.Find("Canvas/Panel/Score").gameObject;
+        // set score to 0
+        score = 0;
+        SetScore();
 
         maxLoc = PlayerLanes.Count-1;
         Debug.Log(maxLoc);
@@ -144,12 +150,6 @@ public class TempestController : MonoBehaviour
     {
         // Fire
         if(canShoot) CheckFireKey(); 
-
-/*        if (Input.GetKeyDown(KeyCode.X)) 
-        {
-            Debug.Log("X down");
-            Fire();
-        }*/
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -274,6 +274,7 @@ public class TempestController : MonoBehaviour
                 {
                     Destroy(enemy);
                     Destroy(enemy.transform.parent.gameObject);
+                    score += shootEnemyScore;
                     Debug.Log("Shoot enemy!");
                 }
             }
@@ -286,10 +287,13 @@ public class TempestController : MonoBehaviour
             {
                 Destroy(enemy);
                 Destroy(enemy.transform.parent.gameObject);
+                score += shootEnemyScore;
                 Debug.Log("Shoot enemy!");
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
         }
+
+        SetScore();
 
     }
 
@@ -377,6 +381,11 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("Can't go right");
         }
+    }
+
+     public void SetScore()
+    {
+        scoreText.GetComponent<TextMeshProUGUI>().text = score.ToString();
     }
 
     void OnTriggerEnter2D(Collider2D other)

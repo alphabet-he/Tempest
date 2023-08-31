@@ -87,6 +87,8 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
             TempestController.tc.Score += EnemyController.ec.defeatedScore; // get score
             AudioManager.Instance.PlaySFX("enemy_explode");
+            TempestController.tc.Score += TempestController.tc.shootEnemyScore;
+            TempestController.tc.SetScore();
         }
         else if(other.tag == "Tempest")
         {
