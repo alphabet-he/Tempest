@@ -9,7 +9,7 @@ public class TempestController : MonoBehaviour
     public float healingEffectLasting = 1f;
 
     int score;
-    public int hp = 3;
+    public int hp = 100;
     int loc;
     int maxLoc;
 
@@ -26,16 +26,19 @@ public class TempestController : MonoBehaviour
     bool canShoot = true;
     bool canMove = true;
 
-    public const float minimumHeldDuration = 0.2f; // press for how long to consider it a hold
-    public float pressShootCD = 2f;
+    public float minimumShootHeldDuration = 0.2f; // press for how long to consider it a hold
+    public float pressShootCD = 0.25f;
     public float holdShootCD = 0.4f;
     public float holdShootInterval = 0.15f;
     public int maxContinuousShoot = 5;
 
-    private float _leftPressedTime = 0;
-    private bool _leftHeld = false;
-    private float _rightPressedTime = 0;
-    private bool _rightHeld = false;
+    public float minimumMoveHeldDuration = 0.5f; // press for how long to consider it a hold
+    public float pressMoveCD = 0.2f;
+    public float holdMoveCD = 0.2f;
+    public float holdMoveInterval = 0.1f;
+
+    private float _movePressedTime = 0;
+    private bool _moveHeld = false;
     private float _xPressedTime = 0;
     private bool _xHeld = false;
     private int _continuousShootCnt = 0;
@@ -132,17 +135,17 @@ public class TempestController : MonoBehaviour
             StartCoroutine(Heal());
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (canMove)
         {
-            Debug.Log("Left arrow down");
-            MoveLeft();
+            CheckMoveKey(true);
+            CheckMoveKey(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Debug.Log("Right arrow down");
-            MoveRight();
-        }
+    }
+
+    void ClockDown()
+    {
+
     }
 
 
@@ -176,7 +179,7 @@ public class TempestController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.X))
         {
-            if (Time.timeSinceLevelLoad - _xPressedTime > minimumHeldDuration)
+            if (Time.timeSinceLevelLoad - _xPressedTime > minimumShootHeldDuration)
             {
                 // Player has held the x key for .25 seconds. Consider it "held"
                 _xHeld = true;
@@ -195,53 +198,45 @@ public class TempestController : MonoBehaviour
         }
     }
 
-    void CheckLeftKey()
+    void CheckMoveKey(bool moveLeft)
     {
-/*        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        KeyCode key = moveLeft ? KeyCode.LeftArrow : KeyCode.RightArrow;
+        if (Input.GetKeyDown(key))
         {
             // Use has pressed the left key. We don't know if they'll release or hold it, so keep track of when they started holding it.
-            _leftPressedTime = Time.timeSinceLevelLoad;
-            _leftHeld = false;
+            _movePressedTime = Time.timeSinceLevelLoad;
+            _moveHeld = false;
+            if (moveLeft) MoveLeft();
+            else MoveRight();
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyUp(key))
         {
-            if (!_leftHeld)
+            if (!_moveHeld)
             {
-                Debug.Log(canMove);
                 // Player has released the left key without holding it.
                 // TODO: Perform the action for when left is pressed.
-                Fire();
                 StartCoroutine(StartCD((i) => { canMove = i; }, pressMoveCD));
-                Debug.Log(canMove);
             }
             else
             {
                 StartCoroutine(StartCD((i) => { canMove = i; }, holdMoveCD));
-                Debug.Log(canMove);
             }
-            _leftHeld = false;
-            _continuousMoveCnt = 0;
+            _moveHeld = false;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(key))
         {
-            if (Time.timeSinceLevelLoad - _leftPressedTime > minimumHeldDuration)
+            if (Time.timeSinceLevelLoad - _movePressedTime > minimumMoveHeldDuration)
             {
                 // Player has held the left key for .25 seconds. Consider it "held"
-                _leftHeld = true;
-                if (canMove && _continuousMoveCnt < maleftContinuousMove)
+                _moveHeld = true;
+                if (canMove)
                 {
-                    StartCoroutine(HoldToFire());
-                }
-
-                if (canMove && _continuousMoveCnt >= maleftContinuousMove)
-                {
-                    StartCoroutine(StartCD((i) => { canMove = i; }, holdMoveCD));
-                    _continuousMoveCnt = 0;
+                    StartCoroutine(HoldToMove(moveLeft));
                 }
 
             }
-        }*/
+        }
     }
 
     void Fire()
@@ -291,6 +286,14 @@ public class TempestController : MonoBehaviour
         canShoot = true;
     }
 
+    IEnumerator HoldToMove(bool moveLeft)
+    {
+        if(moveLeft) { MoveLeft(); }
+        else { MoveRight(); }
+        canMove = false;
+        yield return new WaitForSeconds(holdMoveInterval);
+        canMove = true;
+    }
 
     IEnumerator Heal()
     {
