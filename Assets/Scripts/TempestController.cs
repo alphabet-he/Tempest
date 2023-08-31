@@ -7,6 +7,7 @@ using UnityEngine;
 public class TempestController : MonoBehaviour
 {
     public float healingEffectLasting = 1f;
+    public GameObject lifeCountPrefab;
 
     int score;
     public int hp = 100;
@@ -20,6 +21,7 @@ public class TempestController : MonoBehaviour
     List<GameObject> allyLanes1 = new List<GameObject>();
     List<GameObject> endLanes = new List<GameObject>();
     List<GameObject> healingEffect = new List<GameObject>();
+    List<GameObject> lifeCounts = new List<GameObject>();
 
 
     // control 
@@ -109,6 +111,11 @@ public class TempestController : MonoBehaviour
         {
             healingEffect.Add(child.gameObject);
             child.gameObject.SetActive(false);
+        }
+
+        for(int i = 0; i < hp; i++)
+        {
+            GameObject life = Instantiate(poisonSmoke, Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
 
         maxLoc = PlayerLanes.Count-1;
