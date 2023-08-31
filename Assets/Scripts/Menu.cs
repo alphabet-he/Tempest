@@ -13,8 +13,11 @@ public class Menu : MonoBehaviour
 
     public void ControlsButton()
     {
-        GetComponent< controlsMenu > ().controlsButton();
-        Debug.Log("help"); 
+        SceneManager.LoadScene("Controls"); 
+    }
+    public void MenuButton()
+    {
+        SceneManager.LoadScene("Menu");
     }
 
     public void QuitButton()
