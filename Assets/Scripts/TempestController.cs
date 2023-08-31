@@ -197,7 +197,7 @@ public class TempestController : MonoBehaviour
 
     void CheckLeftKey()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+/*        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             // Use has pressed the left key. We don't know if they'll release or hold it, so keep track of when they started holding it.
             _leftPressedTime = Time.timeSinceLevelLoad;
@@ -241,7 +241,7 @@ public class TempestController : MonoBehaviour
                 }
 
             }
-        }
+        }*/
     }
 
     void Fire()

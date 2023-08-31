@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
     public AnimationClip explode;
     public AnimationClip worsening;
+//    public AnimatorController explode;
+//    public AnimatorController worsening;
+
+
     public float fadeSpeed = 0.5f;
     List<List<Ally>> allies = new List<List<Ally>>();
 
