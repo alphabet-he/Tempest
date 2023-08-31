@@ -26,7 +26,7 @@ public class TempestController : MonoBehaviour
     bool canShoot = true;
 
     public const float minimumHeldDuration = 0.2f; // press for how long to consider it a hold
-    public float pressShootCD = 0.2f;
+    public float pressShootCD = 2f;
     public float holdShootCD = 0.4f;
     public float holdShootInterval = 0.15f;
     public int maxContinuousShoot = 5;
@@ -157,14 +157,17 @@ public class TempestController : MonoBehaviour
         {
             if (!_xHeld)
             {
+                Debug.Log(canShoot);
                 // Player has released the x key without holding it.
                 // TODO: Perform the action for when x is pressed.
                 Fire();
-                StartCoroutine(StartCD(canShoot, pressShootCD));
+                StartCoroutine(StartCD((i) => { canShoot = i; }, pressShootCD));
+                Debug.Log(canShoot);
             }
             else
             {
-                StartCoroutine(StartCD(canShoot, holdShootCD));
+                StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
+                Debug.Log(canShoot);
             }
             _xHeld = false;
             _continuousShootCnt = 0;
@@ -179,6 +182,12 @@ public class TempestController : MonoBehaviour
                 if (canShoot && _continuousShootCnt < maxContinuousShoot)
                 {
                     StartCoroutine(HoldToFire());
+                }
+
+                if (canShoot && _continuousShootCnt >= maxContinuousShoot)
+                {
+                    StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
+                    _continuousShootCnt = 0;
                 }
 
             }
@@ -216,11 +225,11 @@ public class TempestController : MonoBehaviour
 
     }
 
-    IEnumerator StartCD(bool flag, float cdTime)
+    IEnumerator StartCD(Action<bool> value, float cdTime)
     {
-        flag = false;
+        value(false);
         yield return new WaitForSeconds(cdTime);
-        flag = true;
+        value(true);
     }
 
     IEnumerator HoldToFire()
