@@ -236,6 +236,7 @@ public class TempestController : MonoBehaviour
 
     void Fire()
     {
+        AudioManager.Instance.PlaySFX("player_shoot");
         BulletController.bc.NewBullets(gameObject.transform.position, GetMid(StartLanes[loc]), true);
         // remove all enemies on neighbouring edges
         if (loc > 0)
@@ -325,6 +326,7 @@ public class TempestController : MonoBehaviour
     {
         if(loc > 0) // can go left
         {
+            AudioManager.Instance.PlaySFX("player_move");
             loc--;
             MoveTempest();
             Debug.Log($"Move left {loc}");
@@ -339,6 +341,7 @@ public class TempestController : MonoBehaviour
     {
         if (loc < maxLoc) // can go right
         {
+            AudioManager.Instance.PlaySFX("player_move");
             loc++;
             MoveTempest();
             Debug.Log($"Move right {loc}");
@@ -358,7 +361,12 @@ public class TempestController : MonoBehaviour
             if(hp <= 0) // the player dies
             {
                 Destroy(gameObject);
+                AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
+            }
+            else
+            {
+                AudioManager.Instance.PlaySFX("player_hurt");
             }
         }
     }

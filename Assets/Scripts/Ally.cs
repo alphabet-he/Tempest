@@ -45,6 +45,7 @@ public class Ally : MonoBehaviour
         fade = 1f;
         IsDissolving = false;
         gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
+        AudioManager.Instance.PlaySFX("ally_heal");
     }
 
     void OnTriggerEnter2D(Collider2D other)
