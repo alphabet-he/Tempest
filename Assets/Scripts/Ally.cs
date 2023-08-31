@@ -59,11 +59,19 @@ public class Ally : MonoBehaviour
             foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
             if(loc > 0)
             {
-                foreach (Ally a in AllyController.ac.Allies[loc-1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                if(AllyController.ac.Allies[loc - 1].Count > 0)
+                {
+                    foreach (Ally a in AllyController.ac.Allies[loc - 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                }
+                
             }
             if(loc < TempestController.tc.MaxLoc)
             {
-                foreach (Ally a in AllyController.ac.Allies[loc+1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                if (AllyController.ac.Allies[loc + 1].Count > 0)
+                {
+                    foreach (Ally a in AllyController.ac.Allies[loc + 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                }
+             
             }
 
         }
