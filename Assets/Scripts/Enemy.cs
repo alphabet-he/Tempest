@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     int loc;
     float shootFreqMin;
     float shootFreqMax;
-    float shootAfter;
+    //float shootAfter;
     float chaseFreq;
 
     bool onEdge = false;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     public float EnemySpeed { get => enemySpeed; set => enemySpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
     public int Loc { get => loc; set => loc = value; }
-    public float ShootAfter { get => shootAfter; set => shootAfter = value; }
+    //public float ShootAfter { get => shootAfter; set => shootAfter = value; }
     public float ShootFreqMin { get => shootFreqMin; set => shootFreqMin = value; }
     public float ShootFreqMax { get => shootFreqMax; set => shootFreqMax = value; }
     public float ChaseFreq { get => chaseFreq; set => chaseFreq = value; }
@@ -32,11 +32,11 @@ public class Enemy : MonoBehaviour
 
     void Shoot()
     {
-        if (onEdge) return;
+        //if (onEdge) return;
         BulletController.bc.NewBullets(gameObject.transform.position, TempestController.tc.GetMid(TempestController.tc.EndLanes[loc]), false);
         TempestController.tc.rnd.NextDouble();
-        float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
-        Invoke("Shoot", randomTime);
+        //float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
+        //Invoke("Shoot", randomTime);
     }
 
     // Update is called once per frame

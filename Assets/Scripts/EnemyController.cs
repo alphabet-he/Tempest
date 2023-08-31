@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     public int defeatedScore = 1; // the score gained by player if the enemy is defeated
     public float shootFreqMin = 0.3f;
     public float shootFreqMax = 0.3f;
-    public float shootAfter = 0.2f;
+    //public float shootAfter = 0.2f;
     public float chaseFreq = 1.0f;
     public static EnemyController ec;
     List<List<GameObject>> enemies = new List<List<GameObject>>();
@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
         enemy.transform.GetChild(0).GetComponent<Enemy>().Loc = loc;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
-        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
+        //enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ChaseFreq = chaseFreq;
 
     }
