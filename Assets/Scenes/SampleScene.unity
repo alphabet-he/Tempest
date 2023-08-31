@@ -11593,7 +11593,7 @@ AudioSource:
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -12812,16 +12812,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healingEffectLasting: 1
-  hp: 100
+  hp: 3
   minimumShootHeldDuration: 0.2
-  pressShootCD: 0.15
+  pressShootCD: 0.1
   holdShootCD: 0.4
-  holdShootInterval: 0.1
+  holdShootInterval: 0.08
   maxContinuousShoot: 5
-  minimumMoveHeldDuration: 0.4
-  pressMoveCD: 0.2
-  holdMoveCD: 0.2
-  holdMoveInterval: 0.1
+  minimumMoveHeldDuration: 0.15
+  pressMoveCD: 0.05
+  holdMoveCD: 0.05
+  holdMoveInterval: 0.08
 --- !u!212 &1167601809
 SpriteRenderer:
   m_ObjectHideFlags: 0
