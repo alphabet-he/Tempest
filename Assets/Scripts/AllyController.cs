@@ -44,6 +44,7 @@ public class AllyController : MonoBehaviour
                 group.Add(child.gameObject.GetComponent<Ally>());
                 child.gameObject.GetComponent<Ally>().Loc = i; // pass loc
                 child.gameObject.GetComponent<Ally>().FadeSpeed = FadeSpeed; // pass fade time
+                child.gameObject.GetComponent<Ally>().GroupLoc = j; 
                 // put game object
                 if (j == 0)
                 {

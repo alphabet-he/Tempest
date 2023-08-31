@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
 
     void Shoot()
     {
+        if (onEdge) return;
         BulletController.bc.NewBullets(gameObject.transform.position, TempestController.tc.GetMid(TempestController.tc.EndLanes[loc]), false);
         TempestController.tc.rnd.NextDouble();
         float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
