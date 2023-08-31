@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
-    public Animation explode;
+    public AnimationClip explode;
+    public AnimationClip worsening;
+//    public AnimatorController explode;
+//    public AnimatorController worsening;
+
+
     public float fadeSpeed = 0.5f;
     List<List<Ally>> allies = new List<List<Ally>>();
 
@@ -44,6 +50,7 @@ public class AllyController : MonoBehaviour
                 group.Add(child.gameObject.GetComponent<Ally>());
                 child.gameObject.GetComponent<Ally>().Loc = i; // pass loc
                 child.gameObject.GetComponent<Ally>().FadeSpeed = FadeSpeed; // pass fade time
+                child.gameObject.GetComponent<Ally>().GroupLoc = j; 
                 // put game object
                 if (j == 0)
                 {

@@ -8,10 +8,12 @@ public class Ally : MonoBehaviour
     float fade = 1f;
     float fadeSpeed;
     bool isDissolving = false;
+    int groupLoc;
 
     public int Loc { get => loc; set => loc = value; }
     public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
     public bool IsDissolving { get => isDissolving; set => isDissolving = value; }
+    public int GroupLoc { get => groupLoc; set => groupLoc = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -51,17 +53,25 @@ public class Ally : MonoBehaviour
         if(other.tag == "EnemyBullet")
         {
             // explode
-            StartCoroutine(Explode());
+            if(!IsDissolving) { StartCoroutine(Explode()); }
             // infect nearby cells
             AllyController.ac.Allies[loc].Remove(this);
-            foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving) a.IsDissolving = true; }
+            foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
             if(loc > 0)
             {
-                foreach (Ally a in AllyController.ac.Allies[loc-1]) { if (!a.IsDissolving) a.IsDissolving = true; }
+                if(AllyController.ac.Allies[loc - 1].Count > 0)
+                {
+                    foreach (Ally a in AllyController.ac.Allies[loc - 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                }
+                
             }
             if(loc < TempestController.tc.MaxLoc)
             {
-                foreach (Ally a in AllyController.ac.Allies[loc+1]) { if (!a.IsDissolving) a.IsDissolving = true; }
+                if (AllyController.ac.Allies[loc + 1].Count > 0)
+                {
+                    foreach (Ally a in AllyController.ac.Allies[loc + 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                }
+             
             }
 
         }
@@ -71,8 +81,15 @@ public class Ally : MonoBehaviour
     IEnumerator Explode()
     {
         // visual effect
-        gameObject.GetComponent<SpriteRenderer>().color = Color.black;
-        yield return new WaitForSeconds(1.0f);
+        //gameObject.GetComponent<SpriteRenderer>().color = Color.black; 
+        gameObject.GetComponent<Animation>().AddClip(AllyController.ac.explode, "explode");
+        gameObject.GetComponent<Animation>().clip = gameObject.GetComponent<Animation>().GetClip("explode");
+        if (!gameObject.GetComponent<Animation>().isPlaying)
+        {
+            gameObject.GetComponent<Animation>().Play();
+        }
+        
+        yield return new WaitForSeconds(AllyController.ac.explode.length);
         
         Destroy(gameObject);
     }

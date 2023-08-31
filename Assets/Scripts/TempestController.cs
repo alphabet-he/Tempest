@@ -9,17 +9,39 @@ public class TempestController : MonoBehaviour
     public float healingEffectLasting = 1f;
 
     int score;
-    public int hp = 3;
+    public int hp = 100;
     int loc;
     int maxLoc;
+
 
     List<GameObject> startLanes = new List<GameObject>();
     List<GameObject> playerLanes = new List<GameObject>();
     List<GameObject> allyLanes0 = new List<GameObject>();
     List<GameObject> allyLanes1 = new List<GameObject>();
     List<GameObject> endLanes = new List<GameObject>();
-
     List<GameObject> healingEffect = new List<GameObject>();
+
+
+    // control 
+    bool canShoot = true;
+    bool canMove = true;
+
+    public float minimumShootHeldDuration = 0.2f; // press for how long to consider it a hold
+    public float pressShootCD = 0.25f;
+    public float holdShootCD = 0.4f;
+    public float holdShootInterval = 0.15f;
+    public int maxContinuousShoot = 5;
+
+    public float minimumMoveHeldDuration = 0.5f; // press for how long to consider it a hold
+    public float pressMoveCD = 0.2f;
+    public float holdMoveCD = 0.2f;
+    public float holdMoveInterval = 0.1f;
+
+    private float _movePressedTime = 0;
+    private bool _moveHeld = false;
+    private float _xPressedTime = 0;
+    private bool _xHeld = false;
+    private int _continuousShootCnt = 0;
 
 
     public int Loc { get => loc; set => loc = value; }
@@ -98,12 +120,14 @@ public class TempestController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        // Fire
+        if(canShoot) CheckFireKey(); 
+
+/*        if (Input.GetKeyDown(KeyCode.X)) 
         {
             Debug.Log("X down");
             Fire();
-            AudioManager.Instance.PlaySFX("player_shoot");
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -111,21 +135,104 @@ public class TempestController : MonoBehaviour
             StartCoroutine(Heal());
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (canMove)
         {
-            Debug.Log("Left arrow down");
-            MoveLeft();
-            AudioManager.Instance.PlaySFX("player_move");
+            CheckMoveKey(true);
+            CheckMoveKey(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+    }
+
+
+    void CheckFireKey()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("Right arrow down");
-            MoveRight();
-            AudioManager.Instance.PlaySFX("player_move");
+            // Use has pressed the x key. We don't know if they'll release or hold it, so keep track of when they started holding it.
+            _xPressedTime = Time.timeSinceLevelLoad;
+            _xHeld = false;
+        }
+        else if (Input.GetKeyUp(KeyCode.X))
+        {
+            if (!_xHeld)
+            {
+                Debug.Log(canShoot);
+                // Player has released the x key without holding it.
+                // TODO: Perform the action for when x is pressed.
+                Fire();
+                StartCoroutine(StartCD((i) => { canShoot = i; }, pressShootCD));
+                Debug.Log(canShoot);
+            }
+            else
+            {
+                StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
+                Debug.Log(canShoot);
+            }
+            _xHeld = false;
+            _continuousShootCnt = 0;
+        }
+
+        if (Input.GetKey(KeyCode.X))
+        {
+            if (Time.timeSinceLevelLoad - _xPressedTime > minimumShootHeldDuration)
+            {
+                // Player has held the x key for .25 seconds. Consider it "held"
+                _xHeld = true;
+                if (canShoot && _continuousShootCnt < maxContinuousShoot)
+                {
+                    StartCoroutine(HoldToFire());
+                }
+
+                if (canShoot && _continuousShootCnt >= maxContinuousShoot)
+                {
+                    StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
+                    _continuousShootCnt = 0;
+                }
+
+            }
         }
     }
 
+    void CheckMoveKey(bool moveLeft)
+    {
+        KeyCode key = moveLeft ? KeyCode.LeftArrow : KeyCode.RightArrow;
+        if (Input.GetKeyDown(key))
+        {
+            // Use has pressed the left key. We don't know if they'll release or hold it, so keep track of when they started holding it.
+            _movePressedTime = Time.timeSinceLevelLoad;
+            _moveHeld = false;
+            if (moveLeft) MoveLeft();
+            else MoveRight();
+        }
+        else if (Input.GetKeyUp(key))
+        {
+            if (!_moveHeld)
+            {
+                // Player has released the left key without holding it.
+                // TODO: Perform the action for when left is pressed.
+                StartCoroutine(StartCD((i) => { canMove = i; }, pressMoveCD));
+            }
+            else
+            {
+                StartCoroutine(StartCD((i) => { canMove = i; }, holdMoveCD));
+            }
+            _moveHeld = false;
+        }
+
+        if (Input.GetKey(key))
+        {
+            if (Time.timeSinceLevelLoad - _movePressedTime > minimumMoveHeldDuration)
+            {
+                // Player has held the left key for .25 seconds. Consider it "held"
+                _moveHeld = true;
+                if (canMove)
+                {
+                    StartCoroutine(HoldToMove(moveLeft));
+                }
+
+            }
+        }
+    }
 
     void Fire()
     {
@@ -140,7 +247,6 @@ public class TempestController : MonoBehaviour
                     Destroy(enemy);
                     Destroy(enemy.transform.parent.gameObject);
                     Debug.Log("Shoot enemy!");
-                    AudioManager.Instance.PlaySFX("enemy_explode");
                 }
             }
             EnemyController.ec.Enemies[loc - 1].Clear();
@@ -153,14 +259,36 @@ public class TempestController : MonoBehaviour
                 Destroy(enemy);
                 Destroy(enemy.transform.parent.gameObject);
                 Debug.Log("Shoot enemy!");
-                AudioManager.Instance.PlaySFX("enemy_explode");
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
         }
-        
 
     }
 
+    IEnumerator StartCD(Action<bool> value, float cdTime)
+    {
+        value(false);
+        yield return new WaitForSeconds(cdTime);
+        value(true);
+    }
+
+    IEnumerator HoldToFire()
+    {
+        Fire();
+        canShoot = false;
+        _continuousShootCnt++;
+        yield return new WaitForSeconds(holdShootInterval);
+        canShoot = true;
+    }
+
+    IEnumerator HoldToMove(bool moveLeft)
+    {
+        if(moveLeft) { MoveLeft(); }
+        else { MoveRight(); }
+        canMove = false;
+        yield return new WaitForSeconds(holdMoveInterval);
+        canMove = true;
+    }
 
     IEnumerator Heal()
     {
@@ -230,12 +358,7 @@ public class TempestController : MonoBehaviour
             if(hp <= 0) // the player dies
             {
                 Destroy(gameObject);
-                AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
-            }
-            else
-            {
-                AudioManager.Instance.PlaySFX("player_hurt");
             }
         }
     }
