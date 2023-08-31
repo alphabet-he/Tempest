@@ -53,7 +53,7 @@ public class Ally : MonoBehaviour
         if(other.tag == "EnemyBullet")
         {
             // explode
-            StartCoroutine(Explode());
+            if(!IsDissolving) { StartCoroutine(Explode()); }
             // infect nearby cells
             AllyController.ac.Allies[loc].Remove(this);
             foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
@@ -73,7 +73,7 @@ public class Ally : MonoBehaviour
     IEnumerator Explode()
     {
         // visual effect
-        gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.black; 
         yield return new WaitForSeconds(1.0f);
         
         Destroy(gameObject);

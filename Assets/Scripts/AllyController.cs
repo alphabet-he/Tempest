@@ -5,6 +5,7 @@ using UnityEngine;
 public class AllyController : MonoBehaviour
 {
     public Animation explode;
+    public Animation worsening;
     public float fadeSpeed = 0.5f;
     List<List<Ally>> allies = new List<List<Ally>>();
 

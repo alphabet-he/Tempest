@@ -13,13 +13,31 @@ public class TempestController : MonoBehaviour
     int loc;
     int maxLoc;
 
+
     List<GameObject> startLanes = new List<GameObject>();
     List<GameObject> playerLanes = new List<GameObject>();
     List<GameObject> allyLanes0 = new List<GameObject>();
     List<GameObject> allyLanes1 = new List<GameObject>();
     List<GameObject> endLanes = new List<GameObject>();
-
     List<GameObject> healingEffect = new List<GameObject>();
+
+
+    // control 
+    bool canShoot = true;
+
+    public const float minimumHeldDuration = 0.2f; // press for how long to consider it a hold
+    public float pressShootCD = 2f;
+    public float holdShootCD = 0.4f;
+    public float holdShootInterval = 0.15f;
+    public int maxContinuousShoot = 5;
+
+    private float _leftPressedTime = 0;
+    private bool _leftHeld = false;
+    private float _rightPressedTime = 0;
+    private bool _rightHeld = false;
+    private float _xPressedTime = 0;
+    private bool _xHeld = false;
+    private int _continuousShootCnt = 0;
 
 
     public int Loc { get => loc; set => loc = value; }
@@ -98,11 +116,14 @@ public class TempestController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        // Fire
+        if(canShoot) CheckFireKey(); 
+
+/*        if (Input.GetKeyDown(KeyCode.X)) 
         {
             Debug.Log("X down");
             Fire();
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -123,6 +144,55 @@ public class TempestController : MonoBehaviour
         }
     }
 
+
+    void CheckFireKey()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            // Use has pressed the x key. We don't know if they'll release or hold it, so keep track of when they started holding it.
+            _xPressedTime = Time.timeSinceLevelLoad;
+            _xHeld = false;
+        }
+        else if (Input.GetKeyUp(KeyCode.X))
+        {
+            if (!_xHeld)
+            {
+                Debug.Log(canShoot);
+                // Player has released the x key without holding it.
+                // TODO: Perform the action for when x is pressed.
+                Fire();
+                StartCoroutine(StartCD((i) => { canShoot = i; }, pressShootCD));
+                Debug.Log(canShoot);
+            }
+            else
+            {
+                StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
+                Debug.Log(canShoot);
+            }
+            _xHeld = false;
+            _continuousShootCnt = 0;
+        }
+
+        if (Input.GetKey(KeyCode.X))
+        {
+            if (Time.timeSinceLevelLoad - _xPressedTime > minimumHeldDuration)
+            {
+                // Player has held the x key for .25 seconds. Consider it "held"
+                _xHeld = true;
+                if (canShoot && _continuousShootCnt < maxContinuousShoot)
+                {
+                    StartCoroutine(HoldToFire());
+                }
+
+                if (canShoot && _continuousShootCnt >= maxContinuousShoot)
+                {
+                    StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
+                    _continuousShootCnt = 0;
+                }
+
+            }
+        }
+    }
 
     void Fire()
     {
@@ -152,8 +222,23 @@ public class TempestController : MonoBehaviour
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
         }
-        
 
+    }
+
+    IEnumerator StartCD(Action<bool> value, float cdTime)
+    {
+        value(false);
+        yield return new WaitForSeconds(cdTime);
+        value(true);
+    }
+
+    IEnumerator HoldToFire()
+    {
+        Fire();
+        canShoot = false;
+        _continuousShootCnt++;
+        yield return new WaitForSeconds(holdShootInterval);
+        canShoot = true;
     }
 
 
