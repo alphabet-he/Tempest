@@ -24,6 +24,7 @@ public class TempestController : MonoBehaviour
 
     // control 
     bool canShoot = true;
+    bool canMove = true;
 
     public const float minimumHeldDuration = 0.2f; // press for how long to consider it a hold
     public float pressShootCD = 2f;
@@ -188,6 +189,55 @@ public class TempestController : MonoBehaviour
                 {
                     StartCoroutine(StartCD((i) => { canShoot = i; }, holdShootCD));
                     _continuousShootCnt = 0;
+                }
+
+            }
+        }
+    }
+
+    void CheckLeftKey()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // Use has pressed the left key. We don't know if they'll release or hold it, so keep track of when they started holding it.
+            _leftPressedTime = Time.timeSinceLevelLoad;
+            _leftHeld = false;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            if (!_leftHeld)
+            {
+                Debug.Log(canMove);
+                // Player has released the left key without holding it.
+                // TODO: Perform the action for when left is pressed.
+                Fire();
+                StartCoroutine(StartCD((i) => { canMove = i; }, pressMoveCD));
+                Debug.Log(canMove);
+            }
+            else
+            {
+                StartCoroutine(StartCD((i) => { canMove = i; }, holdMoveCD));
+                Debug.Log(canMove);
+            }
+            _leftHeld = false;
+            _continuousMoveCnt = 0;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (Time.timeSinceLevelLoad - _leftPressedTime > minimumHeldDuration)
+            {
+                // Player has held the left key for .25 seconds. Consider it "held"
+                _leftHeld = true;
+                if (canMove && _continuousMoveCnt < maleftContinuousMove)
+                {
+                    StartCoroutine(HoldToFire());
+                }
+
+                if (canMove && _continuousMoveCnt >= maleftContinuousMove)
+                {
+                    StartCoroutine(StartCD((i) => { canMove = i; }, holdMoveCD));
+                    _continuousMoveCnt = 0;
                 }
 
             }
