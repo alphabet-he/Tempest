@@ -102,6 +102,7 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("X down");
             Fire();
+            AudioManager.Instance.PlaySFX("player_shoot");
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -114,12 +115,14 @@ public class TempestController : MonoBehaviour
         {
             Debug.Log("Left arrow down");
             MoveLeft();
+            AudioManager.Instance.PlaySFX("player_move");
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Debug.Log("Right arrow down");
             MoveRight();
+            AudioManager.Instance.PlaySFX("player_move");
         }
     }
 
@@ -137,6 +140,7 @@ public class TempestController : MonoBehaviour
                     Destroy(enemy);
                     Destroy(enemy.transform.parent.gameObject);
                     Debug.Log("Shoot enemy!");
+                    AudioManager.Instance.PlaySFX("enemy_explode");
                 }
             }
             EnemyController.ec.Enemies[loc - 1].Clear();
@@ -149,6 +153,7 @@ public class TempestController : MonoBehaviour
                 Destroy(enemy);
                 Destroy(enemy.transform.parent.gameObject);
                 Debug.Log("Shoot enemy!");
+                AudioManager.Instance.PlaySFX("enemy_explode");
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
         }
@@ -225,7 +230,12 @@ public class TempestController : MonoBehaviour
             if(hp <= 0) // the player dies
             {
                 Destroy(gameObject);
+                AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
+            }
+            else
+            {
+                AudioManager.Instance.PlaySFX("player_hurt");
             }
         }
     }
