@@ -143,6 +143,11 @@ public class TempestController : MonoBehaviour
 
     }
 
+    void ClockDown()
+    {
+
+    }
+
 
     void CheckFireKey()
     {
