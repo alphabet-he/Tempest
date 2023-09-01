@@ -274,6 +274,7 @@ public class TempestController : MonoBehaviour
                 if (!enemy.IsDestroyed())
                 {
                     Destroy(enemy);
+                    AudioManager.Instance.PlaySFX("enemy_explode");
                     Destroy(enemy.transform.parent.gameObject);
                     score += shootEnemyScore;
                     Debug.Log("Shoot enemy!");
@@ -287,6 +288,7 @@ public class TempestController : MonoBehaviour
             foreach (var enemy in EnemyController.ec.Enemies[loc + 1])
             {
                 Destroy(enemy);
+                AudioManager.Instance.PlaySFX("enemy_explode");
                 Destroy(enemy.transform.parent.gameObject);
                 score += shootEnemyScore;
                 Debug.Log("Shoot enemy!");
