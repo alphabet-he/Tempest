@@ -11,9 +11,10 @@ public class TempestController : MonoBehaviour
     public GameObject lifeCountPrefab;
     public int shootEnemyScore = 50;
     public int allyRemainingScore = 100;
+    public int maxHp = 3;
 
     int score;
-    public int hp = 100;
+    int hp = 100;
     int loc;
     int maxLoc;
 
@@ -84,8 +85,8 @@ public class TempestController : MonoBehaviour
     void Start()
     {
         gameObject.tag = "Tempest";
-        loc = 0;
         score = 0;
+        hp = maxHp;
         GameObject padsParent = GameObject.Find("MovingPads").gameObject;
         foreach (Transform child in padsParent.transform)
         {
@@ -146,7 +147,7 @@ public class TempestController : MonoBehaviour
         endPanel.SetActive(false);
 
         maxLoc = PlayerLanes.Count-1;
-        Debug.Log(maxLoc);
+        loc = maxLoc / 2;
         MoveTempest();
 
     }
@@ -287,11 +288,14 @@ public class TempestController : MonoBehaviour
         {
             foreach (var enemy in EnemyController.ec.Enemies[loc + 1])
             {
-                Destroy(enemy);
-                AudioManager.Instance.PlaySFX("enemy_explode");
-                Destroy(enemy.transform.parent.gameObject);
-                score += shootEnemyScore;
-                Debug.Log("Shoot enemy!");
+                if (!enemy.IsDestroyed())
+                {
+                    Destroy(enemy);
+                    AudioManager.Instance.PlaySFX("enemy_explode");
+                    Destroy(enemy.transform.parent.gameObject);
+                    score += shootEnemyScore;
+                    Debug.Log("Shoot enemy!");
+                }
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
         }
@@ -401,7 +405,6 @@ public class TempestController : MonoBehaviour
             Debug.Log(hp);
             if(hp <= 0) // the player dies
             {
-                Destroy(gameObject);
                 AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
                 EndGame();
@@ -422,6 +425,59 @@ public class TempestController : MonoBehaviour
         }
         endPanel.transform.Find("Score").GetComponent<TextMeshProUGUI>().text = score.ToString() ;
         endPanel.SetActive(true);
+    }
+
+    public void StartOver()
+    {
+        // reset player
+        loc = maxLoc / 2;
+        MoveTempest();
+
+        // reset score
+        score = 0;
+        SetScore();
+
+        // reset timer
+        Timer.Restart();
+
+        // reset hp
+        hp = maxHp;
+        foreach(GameObject life in lifeCounts)
+        {
+            life.SetActive(true);
+        }
+
+        // reset controls
+        _movePressedTime = 0;
+        _moveHeld = false;
+        _xPressedTime = 0;
+        _xHeld = false;
+        _continuousShootCnt = 0;
+
+        // reset allies
+        AllyController.ac.Allies.Clear();
+        AllyController.ac.SetAllies();
+
+        // reset bullets
+        GameObject[] enemybullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+        GameObject[] playerbullets = GameObject.FindGameObjectsWithTag("PlayerBullet");
+        foreach(GameObject b in enemybullets) { Destroy(b); Destroy(b.transform.parent.gameObject); }
+        foreach(GameObject b in playerbullets) { Destroy(b); Destroy(b.transform.parent.gameObject); }
+
+        // reset enemies 
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject b in enemies) { Destroy(b); Destroy(b.transform.parent.gameObject); }
+        foreach(List<GameObject> enemyOnLane in EnemyController.ec.Enemies) 
+        {
+            enemyOnLane.Clear();
+        }
+
+        // hide end page
+        endPanel.SetActive(false);
+
+        // restart
+        Time.timeScale = 1;
+
     }
 
     public Vector3 GetMid(GameObject lane)

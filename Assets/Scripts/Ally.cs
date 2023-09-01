@@ -33,7 +33,7 @@ public class Ally : MonoBehaviour
                 IsDissolving = false;
                 gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
                 AllyController.ac.Allies[loc].Remove(this);
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
 
@@ -91,8 +91,8 @@ public class Ally : MonoBehaviour
         }
         
         yield return new WaitForSeconds(AllyController.ac.explode.length);
-        
-        Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 
 

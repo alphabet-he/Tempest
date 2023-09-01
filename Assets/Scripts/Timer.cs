@@ -5,30 +5,38 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    public int timeLimit = 120;
+    public static int timeLimit = 120;
+
+    static int timer;
     // Start is called before the first frame update
     void Start()
     {
+        timer = timeLimit;
         setTimerText();
         InvokeRepeating("ClockDown", 0, 1);
     }
 
     void ClockDown()
     {
-        if(timeLimit <= 0)
+        if(timer <= 0)
         {
             TempestController.tc.EndGame();
             return;
         }
-        timeLimit--;
+        timer--;
         setTimerText();
     }
 
     void setTimerText()
     {
-        int minute = timeLimit / 60;
-        int second = timeLimit % 60;
+        int minute = timer / 60;
+        int second = timer % 60;
         gameObject.GetComponent<TextMeshProUGUI>().text = string.Format("{0:00}:{1:00}", minute, second);
+    }
+
+    public static void Restart()
+    {
+        timer = timeLimit; 
     }
 
     // Update is called once per frame

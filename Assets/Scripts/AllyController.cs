@@ -38,6 +38,17 @@ public class AllyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetAllies();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void SetAllies()
+    {
         int i = -1;
         foreach (Transform childgroup in gameObject.transform)
         {
@@ -50,7 +61,8 @@ public class AllyController : MonoBehaviour
                 group.Add(child.gameObject.GetComponent<Ally>());
                 child.gameObject.GetComponent<Ally>().Loc = i; // pass loc
                 child.gameObject.GetComponent<Ally>().FadeSpeed = FadeSpeed; // pass fade time
-                child.gameObject.GetComponent<Ally>().GroupLoc = j; 
+                child.gameObject.GetComponent<Ally>().GroupLoc = j;
+                child.gameObject.SetActive(true);
                 // put game object
                 if (j == 0)
                 {
@@ -69,12 +81,6 @@ public class AllyController : MonoBehaviour
             }
             allies.Add(group);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 
