@@ -12103,7 +12103,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ac3cf5cbd96820a4b9ac626584f8876e, type: 3}
   sfxSounds:
   - name: player_move
-    clip: {fileID: 8300000, guid: fec6462ba0939754b91005855589e266, type: 3}
+    clip: {fileID: 8300000, guid: 7b4a5eba43f613e48ade8f8d38406f2c, type: 3}
   - name: player_shoot
     clip: {fileID: 8300000, guid: 7088f0178c1a4134593ba4ec87b7397f, type: 3}
   - name: player_explode
