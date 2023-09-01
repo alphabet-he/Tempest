@@ -26,6 +26,7 @@ public class TempestController : MonoBehaviour
     List<GameObject> healingEffect = new List<GameObject>();
     List<GameObject> lifeCounts = new List<GameObject>();
     GameObject scoreText;
+    GameObject endPanel;
 
 
     // control 
@@ -133,11 +134,16 @@ public class TempestController : MonoBehaviour
             life.transform.GetChild(0).transform.GetChild(0).position = relativePos;
         }
 
-        //find score text
+        // find score text
         scoreText = GameObject.Find("Canvas/Panel/Score").gameObject;
         // set score to 0
         score = 0;
         SetScore();
+
+        // find end panel
+        GameObject endParent = GameObject.Find("GameEndCanvas");
+        endPanel = endParent.transform.GetChild(0).gameObject;
+        endPanel.SetActive(false);
 
         maxLoc = PlayerLanes.Count-1;
         Debug.Log(maxLoc);
@@ -396,6 +402,7 @@ public class TempestController : MonoBehaviour
                 Destroy(gameObject);
                 AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
+                EndGame();
             }
             else
             {
@@ -406,7 +413,13 @@ public class TempestController : MonoBehaviour
 
     public void EndGame()
     {
-
+        Time.timeScale = 0; // pause game
+        foreach(List<Ally> group in AllyController.ac.Allies)
+        {
+            score += group.Count * allyRemainingScore; // calculate score
+        }
+        endPanel.transform.Find("Score").GetComponent<TextMeshProUGUI>().text = score.ToString() ;
+        endPanel.SetActive(true);
     }
 
     public Vector3 GetMid(GameObject lane)

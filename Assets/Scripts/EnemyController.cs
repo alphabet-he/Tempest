@@ -10,7 +10,6 @@ public class EnemyController : MonoBehaviour
     public float generateAfter = 3.0f;
     public float generateFreq = 3.0f; // enemy generate frequency
     public float enemySpeed = 1.2f; // enemy moving speed
-    public int defeatedScore = 1; // the score gained by player if the enemy is defeated
     public float shootFreqMin = 0.3f;
     public float shootFreqMax = 0.3f;
     //public float shootAfter = 0.2f;
