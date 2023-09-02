@@ -9,6 +9,7 @@ public class Ally : MonoBehaviour
     float fadeSpeed;
     bool isDissolving = false;
     int groupLoc;
+    public Animator Animator;
 
     public int Loc { get => loc; set => loc = value; }
     public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
@@ -27,6 +28,7 @@ public class Ally : MonoBehaviour
         if (IsDissolving)
         {
             fade -= Time.deltaTime * AllyController.ac.FadeSpeed;
+            Animator.SetFloat("condition", fade);
             if (fade <= 0f)
             {
                 fade = 0f;
@@ -45,6 +47,7 @@ public class Ally : MonoBehaviour
         if(IsDissolving)
         {
             fade = 1f;
+
             IsDissolving = false;
             gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
             AudioManager.Instance.PlaySFX("ally_heal");
