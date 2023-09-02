@@ -401,10 +401,9 @@ public class TempestController : MonoBehaviour
         {
             hp--;
             lifeCounts[hp].SetActive(false);
-
-            Debug.Log(hp);
             if(hp <= 0) // the player dies
             {
+                gameObject.SetActive(false);
                 AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
                 EndGame();
@@ -432,6 +431,7 @@ public class TempestController : MonoBehaviour
         // reset player
         loc = maxLoc / 2;
         MoveTempest();
+        gameObject.SetActive(true);
 
         // reset score
         score = 0;
@@ -501,6 +501,23 @@ public class TempestController : MonoBehaviour
         if (angle < 0) { angle += 180; }
         return angle * (-1);
 
+    }
+
+    public float SpeedToScale(float speed, GameObject startLane, GameObject destLane, Vector3 currPos)
+    {
+        float destLength = Vector3.Distance(
+            destLane.GetComponent<LineRenderer>().GetPosition(0),
+            destLane.GetComponent<LineRenderer>().GetPosition(1));
+        float startLength = Vector3.Distance(
+            startLane.GetComponent<LineRenderer>().GetPosition(0),
+            startLane.GetComponent<LineRenderer>().GetPosition(1));
+        float ret = speed * (1 +
+            Vector3.Distance(currPos, GetMid(startLane)) /
+            Vector3.Distance(GetMid(destLane), GetMid(startLane)) *
+            //(destLength / startLength - 1)
+            (3 - 1)
+            );
+        return ret;
     }
 
 }

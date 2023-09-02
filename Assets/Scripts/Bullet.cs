@@ -9,10 +9,17 @@ public class Bullet : MonoBehaviour
     Vector3 endpoint;
     bool identity; // True - player, False - enemy 
 
+    float accelerateFreq;
+
     public float BulletSpeed { get => bulletSpeed; set => bulletSpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
     public bool Identity { get => identity; set => identity = value; }
     public int Loc { get => loc; set => loc = value; }
+    public float AccelerateFreq { get => accelerateFreq; set => accelerateFreq = value; }
+
+
+    GameObject startLane;
+    GameObject destLane;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +33,12 @@ public class Bullet : MonoBehaviour
             {
                 angle += 180;
             }
-            
+
+            startLane = TempestController.tc.PlayerLanes[loc];
+            destLane = TempestController.tc.StartLanes[loc];
+            Debug.Log("Player bullet initiated");
+
+
         }
         else 
         { 
@@ -36,8 +48,18 @@ public class Bullet : MonoBehaviour
             {
                 angle += 180;
             }
+            startLane = TempestController.tc.StartLanes[loc];
+            destLane = TempestController.tc.EndLanes[loc];
         }
         gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        Invoke("accelerate", 0);
+    }
+
+    void accelerate()
+    {
+
+        bulletSpeed = TempestController.tc.SpeedToScale(bulletSpeed, startLane, destLane, transform.position);
+        Invoke("accelerate", AccelerateFreq);
     }
 
     // Update is called once per frame

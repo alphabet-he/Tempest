@@ -7,6 +7,7 @@ public class BulletController : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public float bulletSpeed;
+    public float bulletAccelerateFreq = 0.25f;
     //List<Tuple<GameObject, Vector3>> bullets = new List<Tuple<GameObject, Vector3>>(); // bullet object - destination
 
     public static BulletController bc;
@@ -32,6 +33,7 @@ public class BulletController : MonoBehaviour
         bullet.transform.GetChild(0).GetComponent<Bullet>().BulletSpeed = bulletSpeed;
         bullet.transform.GetChild(0).GetComponent<Bullet>().Endpoint = endpoint;
         bullet.transform.GetChild(0).GetComponent<Bullet>().Identity = identity;
+        bullet.transform.GetChild(0).GetComponent<Bullet>().AccelerateFreq = bulletAccelerateFreq;
     }
 
 
