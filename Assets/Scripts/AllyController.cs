@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AllyController : MonoBehaviour
 {
-    public Animator Animator;
+   
     public AnimationClip explode;
     public AnimationClip worsening;
 //    public AnimatorController explode;

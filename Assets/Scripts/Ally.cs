@@ -28,7 +28,7 @@ public class Ally : MonoBehaviour
         if (IsDissolving)
         {
             fade -= Time.deltaTime * AllyController.ac.FadeSpeed;
-            Animator.SetFloat("condition", fade);
+            Animator.SetBool("IsDissolve", true);
             if (fade <= 0f)
             {
                 fade = 0f;
@@ -47,7 +47,7 @@ public class Ally : MonoBehaviour
         if(IsDissolving)
         {
             fade = 1f;
-
+            Animator.SetFloat("condition", fade);
             IsDissolving = false;
             gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
             AudioManager.Instance.PlaySFX("ally_heal");
