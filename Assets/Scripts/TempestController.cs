@@ -433,6 +433,7 @@ public class TempestController : MonoBehaviour
         if (win)
         {
             endPanel.transform.Find("WinLose").GetComponent<Image>().sprite = winSprite;
+
         }
         else
         {
