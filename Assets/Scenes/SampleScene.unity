@@ -9057,6 +9057,7 @@ GameObject:
   - component: {fileID: 845254708}
   - component: {fileID: 845254707}
   - component: {fileID: 845254711}
+  - component: {fileID: 845254712}
   m_Layer: 6
   m_Name: GameEndCanvas
   m_TagString: Untagged
@@ -9157,6 +9158,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c98dd15c8c665c74a83f260395e4b01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &845254712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845254706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 500d2ceb3ea26fa47be02272d77ac554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &860231622
@@ -12934,6 +12947,8 @@ MonoBehaviour:
   shootEnemyScore: 50
   allyRemainingScore: 100
   maxHp: 3
+  winSprite: {fileID: 21300000, guid: 284e8b0fdfaad5f4fa8a3e64aa594219, type: 3}
+  loseSprite: {fileID: 21300000, guid: 16da05167ba61c143a3ea4f24c1c020b, type: 3}
   minimumShootHeldDuration: 0.2
   pressShootCD: 0.1
   holdShootCD: 0.3
@@ -18059,8 +18074,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000011444, y: -299}
-  m_SizeDelta: {x: 325.0252, y: 108.0117}
+  m_AnchoredPosition: {x: 0, y: -299}
+  m_SizeDelta: {x: 554.36, y: 119.1615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1634240413
 MonoBehaviour:
@@ -18138,7 +18153,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 77a75a1a3870ba3438478170a2e17c73, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 923e012f851c39d4d9274b16443a82fa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18889,8 +18904,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000011444, y: -120}
-  m_SizeDelta: {x: 325.0252, y: 108.0117}
+  m_AnchoredPosition: {x: 11, y: -141}
+  m_SizeDelta: {x: 554.36, y: 119.1615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1719642915
 MonoBehaviour:
@@ -18935,7 +18950,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1719642916}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 845254712}
+        m_TargetAssemblyTypeName: Restart, Assembly-CSharp
+        m_MethodName: StarOver
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1719642916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18956,7 +18983,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 24ba488182d19334bbdde36158bee00e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61418594fbc6b1e439af8c98e8913ae1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
