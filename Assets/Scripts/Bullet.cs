@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
             {
                 angle += 180;
             }
-            bulletSpeed = BulletController.bc.playerBulletSpeed;
+            //bulletSpeed = BulletController.bc.playerBulletSpeed;
             bulletAcc = BulletController.bc.playerBulletAcc;
             startLane = TempestController.tc.PlayerLanes[loc];
             destLane = TempestController.tc.StartLanes[loc];
@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
             {
                 angle += 180;
             }
-            bulletSpeed = BulletController.bc.enemyBulletSpeed;
+            //bulletSpeed = BulletController.bc.enemyBulletSpeed;
             bulletAcc = BulletController.bc.enemyBulletAcc;
             startLane = TempestController.tc.StartLanes[loc];
             destLane = TempestController.tc.EndLanes[loc];

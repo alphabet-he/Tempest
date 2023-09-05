@@ -266,7 +266,7 @@ public class TempestController : MonoBehaviour
     void Fire()
     {
         AudioManager.Instance.PlaySFX("player_shoot");
-        BulletController.bc.NewBullets(gameObject.transform.position, GetMid(StartLanes[loc]), true);
+        BulletController.bc.NewBullets(gameObject.transform.position, GetMid(StartLanes[loc]), true, BulletController.bc.playerBulletSpeed);
         // remove all enemies on neighbouring edges
         if (loc > 0)
         {

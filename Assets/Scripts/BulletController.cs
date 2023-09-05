@@ -6,7 +6,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public float enemyBulletSpeed = 0.1f;
+    //public float enemyBulletSpeed = 0.1f;
     public float playerBulletSpeed = 2.5f;
     public float enemyBulletAcc = 0.06f;
     public float playerBulletAcc = -0.01f;
@@ -30,13 +30,12 @@ public class BulletController : MonoBehaviour
         }
     }
 
-    public void NewBullets(Vector3 pos, Vector3 endpoint, bool identity)
+    public void NewBullets(Vector3 pos, Vector3 endpoint, bool identity, float initSpeed)
     {
         GameObject bullet = Instantiate(bulletPrefab, pos, Quaternion.identity);
         bullet.transform.GetChild(0).GetComponent<Bullet>().Endpoint = endpoint;
         bullet.transform.GetChild(0).GetComponent<Bullet>().Identity = identity;
-        
-        
+        bullet.transform.GetChild(0).GetComponent<Bullet>().BulletSpeed = initSpeed;
         //bullet.transform.GetChild(0).GetComponent<Bullet>().AccelerateFreq = bulletAccelerateFreq;
     }
 
