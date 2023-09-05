@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
     GameObject destLane;
     GameObject prefabParent;
     float destLaneLength;
+    float startLaneLength;
     float totalTrip;
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,9 @@ public class Enemy : MonoBehaviour
         destLaneLength = Vector3.Distance(
             destLane.GetComponent<LineRenderer>().GetPosition(0),
             destLane.GetComponent<LineRenderer>().GetPosition(1));
+        startLaneLength = Vector3.Distance(
+            startLane.GetComponent<LineRenderer>().GetPosition(0),
+            startLane.GetComponent<LineRenderer>().GetPosition(1));
         totalTrip = Vector3.Distance(
             TempestController.tc.GetMid(startLane),
             TempestController.tc.GetMid(destLane));
@@ -92,7 +97,8 @@ public class Enemy : MonoBehaviour
             float currTrip = Vector3.Distance(
                 TempestController.tc.GetMid(startLane),
                 prefabParent.transform.position);
-            float scale = currTrip / totalTrip * destLaneLength;
+            //float scale = currTrip / totalTrip * destLaneLength;
+            float scale = startLaneLength + currTrip / totalTrip * (destLaneLength - startLaneLength);
             prefabParent.transform.localScale = new Vector3(scale, scale, 1);
         }
     }

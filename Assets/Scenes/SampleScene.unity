@@ -12934,6 +12934,8 @@ MonoBehaviour:
   shootEnemyScore: 50
   allyRemainingScore: 100
   maxHp: 3
+  winSprite: {fileID: 0}
+  loseSprite: {fileID: 0}
   minimumShootHeldDuration: 0.2
   pressShootCD: 0.1
   holdShootCD: 0.3
@@ -13811,7 +13813,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -13.4271}
-  m_SizeDelta: {x: 960, y: 1306.8542}
+  m_SizeDelta: {x: 1280, y: 1280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1218572699
 MonoBehaviour:
@@ -13833,7 +13835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 293e064ddd8c85845ba42fbc5f9323d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f93ff7e3aa7064142bda791e60999ccd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17733,7 +17735,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b21292ec6111d0244ba04f81132d1d8c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2eaa4638a6504b746aad8aeb47e21dd1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18714,7 +18716,7 @@ MonoBehaviour:
   shootEnemyProb: 0.3
   enemySpeed: 0.1
   shootFreqMin: 2
-  shootFreqMax: 3
+  shootFreqMax: 2.5
   chaseFreq: 0.75
   enemyAcc: 0.0008
 --- !u!1 &1706818737
@@ -19009,7 +19011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.492, y: 0.485}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -149.56, y: -35}
+  m_AnchoredPosition: {x: 5.116, y: 0}
   m_SizeDelta: {x: 391.8954, y: 185.2583}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1722617034
@@ -19066,8 +19068,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
