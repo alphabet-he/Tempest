@@ -20,6 +20,7 @@ public class Ally : MonoBehaviour
     void Start()
     {
         gameObject.tag = "Ally";
+        Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class Ally : MonoBehaviour
         {
             fade -= Time.deltaTime * AllyController.ac.FadeSpeed;
             Animator.SetBool("IsDissolve", true);
+            //Animator.SetFloat("fade", fade);
             if (fade <= 0f)
             {
                 fade = 0f;
@@ -44,10 +46,11 @@ public class Ally : MonoBehaviour
 
     public void heal()
     {
-        if(IsDissolving)
+        ;
+        if (IsDissolving)
         {
-            fade = 1f;
-            Animator.SetFloat("condition", fade);
+            fade = 0.6f;
+            Animator.SetBool("IsDissolve", false);
             IsDissolving = false;
             gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
             AudioManager.Instance.PlaySFX("ally_heal");
@@ -64,12 +67,14 @@ public class Ally : MonoBehaviour
             if(!IsDissolving) { StartCoroutine(Explode()); }
             // infect nearby cells
             AllyController.ac.Allies[loc].Remove(this);
-            foreach(Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+            Animator.SetBool("IsDissolve", true);
+            foreach (Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
             if(loc > 0)
             {
                 if(AllyController.ac.Allies[loc - 1].Count > 0)
                 {
                     foreach (Ally a in AllyController.ac.Allies[loc - 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+                    
                 }
                 
             }
