@@ -8,6 +8,7 @@ public class Ally : MonoBehaviour
     float fade = 1f;
     float fadeSpeed;
     bool isDissolving = false;
+    bool isExploding = false;
     int groupLoc;
     public Animator Animator;
 
@@ -49,12 +50,11 @@ public class Ally : MonoBehaviour
 
     public void heal()
     {
-        ;
-        if (IsDissolving)
+        if (IsDissolving && (!isExploding))
         {
             //fade = 0.6f;
             Animator.SetBool("IsDissolve", false);
-            IsDissolving = false;
+            isDissolving = false;
             StopCoroutine(Worsening());
             AudioManager.Instance.PlaySFX("ally_heal");
         }
@@ -104,6 +104,7 @@ public class Ally : MonoBehaviour
     {
         // explode animation
         Animator.SetBool("explode", true);
+        isExploding = true;
         float waitTime = 0;
         foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
         {
@@ -117,13 +118,6 @@ public class Ally : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         Animator.SetBool("explode", false);
-        if(AllyController.ac.CountAll() <= 3)
-        {
-            TempestController.tc.Win = false;
-            TempestController.tc.EndGame();
-            yield break;
-        }
-        
         gameObject.SetActive(false);
         AllyController.ac.Allies[loc].Remove(this);
         infect();
@@ -132,27 +126,37 @@ public class Ally : MonoBehaviour
     IEnumerator Worsening()
     {
         // explode animation
-        Animator.SetBool("IsDissolve", true);
-        float waitTime = 0;
+    
+        float infectionTime = 0;
+        float explodeTime = 0;
         foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
         {
-            waitTime += clip.length;
+            if (clip.name == "explode")
+            {
+                explodeTime = clip.length;
+                
+            }
+            else if (clip.name == "infection_start" ||  clip.name == "infection_end")
+            {
+                infectionTime += clip.length;
+            }
         }
+        Debug.Log(infectionTime);
+        Animator.SetBool("IsDissolve", true);
+        yield return new WaitForSeconds(infectionTime);
 
-        yield return new WaitForSeconds(waitTime);
+        isExploding = true;
 
+        yield return new WaitForSeconds(explodeTime);
         Animator.SetBool("IsDissolve", false);
 
-        if (AllyController.ac.CountAll() <= 3)
+        if (IsDissolving)
         {
-            TempestController.tc.Win = false;
-            TempestController.tc.EndGame();
-            yield break;
+            gameObject.SetActive(false);
+            AllyController.ac.Allies[loc].Remove(this);
+            infect();
         }
-
-        gameObject.SetActive(false);
-        AllyController.ac.Allies[loc].Remove(this);
-        infect();
+        
     }
 
 
