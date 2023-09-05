@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     int loc;
     float bulletSpeed;
+    float bulletAcc;
     Vector3 endpoint;
     bool identity; // True - player, False - enemy 
 
@@ -33,10 +34,10 @@ public class Bullet : MonoBehaviour
             {
                 angle += 180;
             }
-
+            //bulletSpeed = BulletController.bc.playerBulletSpeed;
+            bulletAcc = BulletController.bc.playerBulletAcc;
             startLane = TempestController.tc.PlayerLanes[loc];
             destLane = TempestController.tc.StartLanes[loc];
-            Debug.Log("Player bullet initiated");
 
 
         }
@@ -48,23 +49,27 @@ public class Bullet : MonoBehaviour
             {
                 angle += 180;
             }
+            //bulletSpeed = BulletController.bc.enemyBulletSpeed;
+            bulletAcc = BulletController.bc.enemyBulletAcc;
             startLane = TempestController.tc.StartLanes[loc];
             destLane = TempestController.tc.EndLanes[loc];
         }
         gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        Invoke("accelerate", 0);
+        //Invoke("accelerate", 0);
     }
 
     void accelerate()
     {
 
         bulletSpeed = TempestController.tc.SpeedToScale(bulletSpeed, startLane, destLane, transform.position);
+        
         Invoke("accelerate", AccelerateFreq);
     }
 
     // Update is called once per frame
     void Update()
     {
+        bulletSpeed += bulletAcc;
         Vector3 pos = gameObject.transform.position;
         float ratio = Time.deltaTime * bulletSpeed / Vector3.Distance(pos, endpoint);
         if (ratio >= 1) // reach the end

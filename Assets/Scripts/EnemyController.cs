@@ -7,16 +7,21 @@ public class EnemyController : MonoBehaviour
 
 {
     public GameObject enemyPrefab;
+    public GameObject shootEnemyPrefab;
     public float generateAfter = 3.0f;
     public float generateFreq = 3.0f; // enemy generate frequency
+    public float shootEnemyGenerateAfter = 10.0f;
+    public float shootEnemyProb = 0.3f;
     public float enemySpeed = 1.2f; // enemy moving speed
     public float shootFreqMin = 0.3f;
     public float shootFreqMax = 0.3f;
     //public float shootAfter = 0.2f;
     public float chaseFreq = 1.0f;
-    public float enemyAccelerateFreq = 0.25f;
+    //public float enemyAccelerateFreq = 0.25f;
+    public float enemyAcc = 0.06f;
     public static EnemyController ec;
     List<List<GameObject>> enemies = new List<List<GameObject>>();
+    bool shootEnemy = false;
 
     public List<List<GameObject>> Enemies { get => enemies; set => enemies = value; }
 
@@ -42,7 +47,14 @@ public class EnemyController : MonoBehaviour
         {
             enemies.Add(new List<GameObject>());
         }
+        Invoke("setShootEnemyTrue", shootEnemyGenerateAfter);
         InvokeRepeating("NewEnemy", generateAfter, generateFreq);
+
+    }
+
+    void setShootEnemyTrue()
+    {
+        shootEnemy = true;
     }
 
     void NewEnemy()
@@ -56,18 +68,36 @@ public class EnemyController : MonoBehaviour
 
         GameObject destLane = TempestController.tc.PlayerLanes[loc];
         Vector3 v = TempestController.tc.GetMid(destLane);
-        
 
-        GameObject enemy = Instantiate(enemyPrefab, startv, Quaternion.identity);
+        bool isShootEnemy = false;
+        if (shootEnemy) // it is after a certain time
+        {
+            // there is probability to generate shoot enemy
+            if (TempestController.tc.rnd.NextDouble() < shootEnemyProb) isShootEnemy = true;
+        }
+
+        GameObject enemy;
+        if (isShootEnemy)
+        {
+            enemy = Instantiate(shootEnemyPrefab, startv, Quaternion.identity);
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = 0;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = 0;
+        }
+        else
+        {
+            enemy = Instantiate(enemyPrefab, startv, Quaternion.identity);
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
+        }
+        
 
         enemy.transform.GetChild(0).GetComponent<Enemy>().EnemySpeed = enemySpeed;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Endpoint = v;
         enemy.transform.GetChild(0).GetComponent<Enemy>().Loc = loc;
-        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
-        enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
         //enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ChaseFreq = chaseFreq;
-        enemy.transform.GetChild(0).GetComponent<Enemy>().AccelerateFreq = enemyAccelerateFreq;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().EnemyAcc = enemyAcc;
+        //enemy.transform.GetChild(0).GetComponent<Enemy>().AccelerateFreq = enemyAccelerateFreq;
 
     }
 

@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     float shootFreqMax;
     //float shootAfter;
     float chaseFreq;
+    float enemyAcc;
     float accelerateFreq;
 
     bool onEdge = false;
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
     public float ShootFreqMax { get => shootFreqMax; set => shootFreqMax = value; }
     public float ChaseFreq { get => chaseFreq; set => chaseFreq = value; }
     public float AccelerateFreq { get => accelerateFreq; set => accelerateFreq = value; }
+    public float EnemyAcc { get => enemyAcc; set => enemyAcc = value; }
 
     GameObject startLane;
     GameObject destLane;
@@ -45,7 +47,7 @@ public class Enemy : MonoBehaviour
         InitPos();
         float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
         Invoke("Shoot", randomTime);
-        Invoke("accelerate", 0);
+        //Invoke("accelerate", 0);
     }
 
     void accelerate()
@@ -58,7 +60,7 @@ public class Enemy : MonoBehaviour
     void Shoot()
     {
         //if (onEdge) return;
-        BulletController.bc.NewBullets(prefabParent.transform.position, TempestController.tc.GetMid(TempestController.tc.EndLanes[loc]), false);
+        BulletController.bc.NewBullets(prefabParent.transform.position, TempestController.tc.GetMid(TempestController.tc.EndLanes[loc]), false, enemySpeed);
         TempestController.tc.rnd.NextDouble();
         //float randomTime = (float)(TempestController.tc.rnd.NextDouble() * (shootFreqMax - shootFreqMin) + shootFreqMin);
         //Invoke("Shoot", randomTime);
@@ -68,6 +70,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if (onEdge) { return; }
+        enemySpeed += enemyAcc;
         Vector3 pos = prefabParent.transform.position;
         //Debug.Log(enemySpeed);
         float ratio = Time.deltaTime * enemySpeed / Vector3.Distance(pos, endpoint);
