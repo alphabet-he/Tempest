@@ -118,6 +118,14 @@ public class Ally : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         Animator.SetBool("explode", false);
+
+        if (AllyController.ac.CountAll() <= 3)
+        {
+            TempestController.tc.Win = false;
+            TempestController.tc.EndGame();
+            yield break;
+        }
+
         gameObject.SetActive(false);
         AllyController.ac.Allies[loc].Remove(this);
         infect();
@@ -150,11 +158,19 @@ public class Ally : MonoBehaviour
         yield return new WaitForSeconds(explodeTime);
         Animator.SetBool("IsDissolve", false);
 
+        if (AllyController.ac.CountAll() <= 3)
+        {
+            TempestController.tc.Win = false;
+            TempestController.tc.EndGame();
+            yield break;
+        }
+
         if (IsDissolving)
         {
             gameObject.SetActive(false);
             AllyController.ac.Allies[loc].Remove(this);
             infect();
+            isDissolving = true;
         }
         
     }

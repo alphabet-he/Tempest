@@ -20,6 +20,7 @@ public class Timer : MonoBehaviour
     {
         if(timer <= 0)
         {
+            TempestController.tc.Win = true;
             TempestController.tc.EndGame();
             return;
         }
