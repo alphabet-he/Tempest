@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TempestController : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class TempestController : MonoBehaviour
     public int allyRemainingScore = 100;
     public int maxHp = 3;
 
+    public Sprite winSprite;
+    public Sprite loseSprite;
+
     int score;
     int hp = 100;
     int loc;
     int maxLoc;
+    bool win = false;
 
 
     List<GameObject> startLanes = new List<GameObject>();
@@ -61,6 +66,7 @@ public class TempestController : MonoBehaviour
     public List<GameObject> AllyLanes0 { get => allyLanes0; set => allyLanes0 = value; }
     public List<GameObject> AllyLanes1 { get => allyLanes1; set => allyLanes1 = value; }
     public List<GameObject> EndLanes { get => endLanes; set => endLanes = value; }
+    public bool Win { get => win; set => win = value; }
 
     public static TempestController tc;
     
@@ -406,6 +412,7 @@ public class TempestController : MonoBehaviour
                 gameObject.SetActive(false);
                 AudioManager.Instance.PlaySFX("player_explode");
                 Debug.Log("Tempest died");
+                win = false;
                 EndGame();
             }
             else
@@ -423,6 +430,15 @@ public class TempestController : MonoBehaviour
             score += group.Count * allyRemainingScore; // calculate score
         }
         endPanel.transform.Find("Score").GetComponent<TextMeshProUGUI>().text = score.ToString() ;
+        if (win)
+        {
+            endPanel.transform.Find("WinLose").GetComponent<Image>().sprite = winSprite;
+        }
+        else
+        {
+            endPanel.transform.Find("WinLose").GetComponent<Image>().sprite = loseSprite;
+        }
+        
         endPanel.SetActive(true);
     }
 

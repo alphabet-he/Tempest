@@ -84,5 +84,14 @@ public class AllyController : MonoBehaviour
         }
     }
 
+    public int CountAll()
+    {
+        int ret = 0;
+        foreach(List<Ally> group in allies) 
+        {
+            ret += group.Count;
+        }
+        return ret;
+    }
 
 }
