@@ -28,7 +28,10 @@ public class Ally : MonoBehaviour
     {
         if (IsDissolving)
         {
-            fade -= Time.deltaTime * AllyController.ac.FadeSpeed;
+            StartCoroutine(Worsening());
+
+
+/*            fade -= Time.deltaTime * AllyController.ac.FadeSpeed;
             Animator.SetBool("IsDissolve", true);
             //Animator.SetFloat("fade", fade);
             if (fade <= 0f)
@@ -39,7 +42,7 @@ public class Ally : MonoBehaviour
                 AllyController.ac.Allies[loc].Remove(this);
                 gameObject.SetActive(false);
             }
-            gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
+            gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);*/
 
         }
     }
@@ -64,47 +67,77 @@ public class Ally : MonoBehaviour
         if(other.tag == "EnemyBullet")
         {
             // explode
-            if(!IsDissolving) { StartCoroutine(Explode()); }
-            // infect nearby cells
-            AllyController.ac.Allies[loc].Remove(this);
-            Animator.SetBool("IsDissolve", true);
-            foreach (Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
-            if(loc > 0)
+            if(!IsDissolving) 
             {
-                if(AllyController.ac.Allies[loc - 1].Count > 0)
-                {
-                    foreach (Ally a in AllyController.ac.Allies[loc - 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
-                    
-                }
-                
-            }
-            if(loc < TempestController.tc.MaxLoc)
-            {
-                if (AllyController.ac.Allies[loc + 1].Count > 0)
-                {
-                    foreach (Ally a in AllyController.ac.Allies[loc + 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
-                }
-             
+                StartCoroutine(Explode());
             }
 
         }
         
+        
+    }
+
+    void infect()
+    {
+        // infect nearby cells
+        foreach (Ally a in AllyController.ac.Allies[loc]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+        if (loc > 0)
+        {
+            if (AllyController.ac.Allies[loc - 1].Count > 0)
+            {
+                foreach (Ally a in AllyController.ac.Allies[loc - 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+
+            }
+
+        }
+        if (loc < TempestController.tc.MaxLoc)
+        {
+            if (AllyController.ac.Allies[loc + 1].Count > 0)
+            {
+                foreach (Ally a in AllyController.ac.Allies[loc + 1]) { if (!a.IsDissolving && a.GroupLoc == groupLoc) a.IsDissolving = true; }
+            }
+
+        }
     }
 
     IEnumerator Explode()
     {
-        // visual effect
-        //gameObject.GetComponent<SpriteRenderer>().color = Color.black; 
-        gameObject.GetComponent<Animation>().AddClip(AllyController.ac.explode, "explode");
-        gameObject.GetComponent<Animation>().clip = gameObject.GetComponent<Animation>().GetClip("explode");
-        if (!gameObject.GetComponent<Animation>().isPlaying)
+        // explode animation
+        Animator.SetBool("explode", true);
+        float waitTime = 0;
+        foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
         {
-            gameObject.GetComponent<Animation>().Play();
+            if (clip.name == "explode")
+            {
+                waitTime = clip.length; 
+                break;
+            }
         }
-        
-        yield return new WaitForSeconds(AllyController.ac.explode.length);
 
+        yield return new WaitForSeconds(waitTime);
+
+        Animator.SetBool("explode", false);
         gameObject.SetActive(false);
+        AllyController.ac.Allies[loc].Remove(this);
+        infect();
+    }
+
+    IEnumerator Worsening()
+    {
+        // explode animation
+        Animator.SetBool("IsDissolve", true);
+        float waitTime = 0;
+        foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
+        {
+            waitTime += clip.length;
+        }
+
+        yield return new WaitForSeconds(waitTime);
+
+        Animator.SetBool("IsDissolve", false);
+        gameObject.SetActive(false);
+        AllyController.ac.Allies[loc].Remove(this);
+        infect();
     }
 
 
