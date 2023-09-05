@@ -52,10 +52,10 @@ public class Ally : MonoBehaviour
         ;
         if (IsDissolving)
         {
-            fade = 0.6f;
+            //fade = 0.6f;
             Animator.SetBool("IsDissolve", false);
             IsDissolving = false;
-            gameObject.GetComponent<SpriteRenderer>().material.SetFloat("_Fade", fade);
+            StopCoroutine(Worsening());
             AudioManager.Instance.PlaySFX("ally_heal");
         }
         
