@@ -54,7 +54,7 @@ public class Ally : MonoBehaviour
         {
             //fade = 0.6f;
             Animator.SetBool("IsDissolve", false);
-            IsDissolving1 = false;
+            IsDissolving = false;
             StopCoroutine(Worsening());
             AudioManager.Instance.PlaySFX("ally_heal");
         }
@@ -170,7 +170,7 @@ public class Ally : MonoBehaviour
             gameObject.SetActive(false);
             AllyController.ac.Allies[loc].Remove(this);
             infect();
-            IsDissolving1 = true;
+            IsDissolving = true;
         }
         
     }
