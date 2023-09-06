@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -13,6 +14,8 @@ public class Enemy : MonoBehaviour
     float chaseFreq;
     float enemyAcc;
     float accelerateFreq;
+    float rotateSpeed;
+    float rotateUpdate = 0.02f;
 
     bool onEdge = false;
 
@@ -25,11 +28,13 @@ public class Enemy : MonoBehaviour
     public float ChaseFreq { get => chaseFreq; set => chaseFreq = value; }
     public float AccelerateFreq { get => accelerateFreq; set => accelerateFreq = value; }
     public float EnemyAcc { get => enemyAcc; set => enemyAcc = value; }
+    public float RotateSpeed { get => rotateSpeed; set => rotateSpeed = value; }
 
     GameObject startLane;
     GameObject destLane;
     GameObject prefabParent;
     float destLaneLength;
+    float startLaneLength;
     float totalTrip;
     // Start is called before the first frame update
     void Start()
@@ -40,6 +45,9 @@ public class Enemy : MonoBehaviour
         destLaneLength = Vector3.Distance(
             destLane.GetComponent<LineRenderer>().GetPosition(0),
             destLane.GetComponent<LineRenderer>().GetPosition(1));
+        startLaneLength = Vector3.Distance(
+            startLane.GetComponent<LineRenderer>().GetPosition(0),
+            startLane.GetComponent<LineRenderer>().GetPosition(1));
         totalTrip = Vector3.Distance(
             TempestController.tc.GetMid(startLane),
             TempestController.tc.GetMid(destLane));
@@ -81,8 +89,8 @@ public class Enemy : MonoBehaviour
 
             EnemyController.ec.Enemies[loc].Add(gameObject);
             onEdge = true;
-            
-            Invoke("Chase", chaseFreq);
+
+            Invoke("Chase", 0.3f);
         }
         else // move enemy
         {
@@ -92,7 +100,8 @@ public class Enemy : MonoBehaviour
             float currTrip = Vector3.Distance(
                 TempestController.tc.GetMid(startLane),
                 prefabParent.transform.position);
-            float scale = currTrip / totalTrip * destLaneLength;
+            //float scale = currTrip / totalTrip * destLaneLength;
+            float scale = startLaneLength + currTrip / totalTrip * (destLaneLength - startLaneLength);
             prefabParent.transform.localScale = new Vector3(scale, scale, 1);
         }
     }
@@ -100,19 +109,88 @@ public class Enemy : MonoBehaviour
     void Chase()
     {
         EnemyController.ec.Enemies[loc].Remove(gameObject);
-        if(TempestController.tc.Loc < loc) { loc--; } 
-        else if(TempestController.tc.Loc > loc) { loc++; }
+        if (TempestController.tc.Loc < loc) { MoveOnLanes(true); }
+        else if (TempestController.tc.Loc > loc) { MoveOnLanes(false); }
         else { Debug.Log("Should Trigger"); }
-        MoveOnLanes();
-        EnemyController.ec.Enemies[loc].Add(gameObject);
+
+        
         Invoke("Chase", chaseFreq);
     }
 
-    void MoveOnLanes()
+    void MoveOnLanes(bool toLeft)
     {
-        GameObject pad = TempestController.tc.PlayerLanes[loc];
-        Vector3 v = TempestController.tc.GetMid(pad);
-        prefabParent.transform.position = v;
+        GameObject originalPad = TempestController.tc.PlayerLanes[loc];
+        Vector3 startp0 = originalPad.GetComponent<LineRenderer>().GetPosition(0);
+        Vector3 startp1 = originalPad.GetComponent<LineRenderer>().GetPosition(1);
+        Vector3 pivot = Vector3.zero;
+        if (toLeft) 
+        { 
+            loc--;
+            if (startp0.x < startp1.x) pivot = startp0;
+            else pivot = startp1;
+        }
+        else 
+        { 
+            loc++;
+            if (startp0.x < startp1.x) pivot = startp1;
+            else pivot = startp0;
+        }
+        GameObject destPad = TempestController.tc.PlayerLanes[loc];
+        Vector3 v = TempestController.tc.GetMid(destPad);
+        
+        Vector3 destleftp = destPad.GetComponent<LineRenderer>().GetPosition(0);
+        Vector3 destrightp = destPad.GetComponent<LineRenderer>().GetPosition(1);
+        float rangle;
+        if (destleftp.x == destrightp.x)
+        {
+            rangle = 90f;
+        }
+        else
+        {
+            rangle = Mathf.Atan((destrightp.y - destleftp.y) / (destrightp.x - destleftp.x)) * Mathf.Rad2Deg;
+        }
+        float scale = Vector3.Distance(destleftp, destrightp); // destinated scale
+
+        float currRangle = prefabParent.transform.eulerAngles.z;
+        float t = Mathf.Abs(Mathf.Abs(prefabParent.transform.eulerAngles.z - rangle) - 180) / rotateSpeed;
+        float scaleSpeed = (scale - prefabParent.transform.localScale.x) / t;
+
+        StartCoroutine(RotateOnLane(toLeft, rangle, scale, scaleSpeed, pivot, v, t));
+    }
+
+   
+
+    IEnumerator RotateOnLane(bool toLeft, float rangle, float scale, float scaleSpeed, Vector3 pivot, Vector3 destv, float t)
+    {
+        int cnt = (int)(t / rotateUpdate);
+
+        //for(int i=0; i<cnt; i++)
+        while(Mathf.Abs(Mathf.Abs(prefabParent.transform.eulerAngles.z - rangle) - 180) > rotateSpeed)
+        {
+            //Debug.Log(prefabParent.transform.eulerAngles.z);
+            Debug.Log(Mathf.Abs(rangle - prefabParent.transform.eulerAngles.z));
+            if (toLeft)
+            {
+                prefabParent.transform.RotateAround(pivot, Vector3.forward, rotateSpeed);
+            }
+            else
+            {
+                prefabParent.transform.RotateAround(pivot, Vector3.forward, (-1) * rotateSpeed);
+            }
+            float originalScale = prefabParent.transform.localScale.x;
+            prefabParent.transform.localScale = new Vector3(originalScale + scaleSpeed, originalScale + scaleSpeed, 1);
+
+            yield return new WaitForSeconds(rotateUpdate);
+        }
+
+        prefabParent.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rangle));
+        prefabParent.transform.localScale = new Vector3(scale, scale, 1);
+        prefabParent.transform.position = destv;
+        EnemyController.ec.Enemies[loc].Add(gameObject);
+        yield break;
+
+
+
     }
 
     void OnTriggerEnter2D(Collider2D other)

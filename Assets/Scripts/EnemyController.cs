@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     public float chaseFreq = 1.0f;
     //public float enemyAccelerateFreq = 0.25f;
     public float enemyAcc = 0.06f;
+    public float rotateSpeed = 10.0f;
     public static EnemyController ec;
     List<List<GameObject>> enemies = new List<List<GameObject>>();
     bool shootEnemy = false;
@@ -47,9 +48,15 @@ public class EnemyController : MonoBehaviour
         {
             enemies.Add(new List<GameObject>());
         }
-        Invoke("setShootEnemyTrue", shootEnemyGenerateAfter);
+        ResetEnemyShoot();
         InvokeRepeating("NewEnemy", generateAfter, generateFreq);
 
+    }
+
+    public void ResetEnemyShoot()
+    {
+        shootEnemy = false;
+        Invoke("setShootEnemyTrue", shootEnemyGenerateAfter);
     }
 
     void setShootEnemyTrue()
@@ -80,14 +87,14 @@ public class EnemyController : MonoBehaviour
         if (isShootEnemy)
         {
             enemy = Instantiate(shootEnemyPrefab, startv, Quaternion.identity);
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = 0;
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = 0;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
         }
         else
         {
             enemy = Instantiate(enemyPrefab, startv, Quaternion.identity);
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = 100;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = 100;
         }
         
 
@@ -97,6 +104,7 @@ public class EnemyController : MonoBehaviour
         //enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ChaseFreq = chaseFreq;
         enemy.transform.GetChild(0).GetComponent<Enemy>().EnemyAcc = enemyAcc;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().RotateSpeed = rotateSpeed;
         //enemy.transform.GetChild(0).GetComponent<Enemy>().AccelerateFreq = enemyAccelerateFreq;
 
     }

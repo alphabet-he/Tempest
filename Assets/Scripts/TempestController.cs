@@ -488,6 +488,7 @@ public class TempestController : MonoBehaviour
         {
             enemyOnLane.Clear();
         }
+        EnemyController.ec.ResetEnemyShoot();
 
         // hide end page
         endPanel.SetActive(false);
