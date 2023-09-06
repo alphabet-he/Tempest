@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         { 
             gameObject.tag = "PlayerBullet";
             
-            if (endpoint.x>=0)
+            if (endpoint.x > 0)
             {
                 angle += 180;
             }

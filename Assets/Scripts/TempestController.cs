@@ -358,7 +358,7 @@ public class TempestController : MonoBehaviour
         Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
         float angle = RotateToCenter(gameObject, GetMid(startLanes[loc]));
-        if(loc >= maxLoc / 2)
+        if(loc > maxLoc / 2)
         {
             angle += 180;
         }
