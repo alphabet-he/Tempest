@@ -18728,8 +18728,8 @@ MonoBehaviour:
   shootEnemyGenerateAfter: 10
   shootEnemyProb: 0.3
   enemySpeed: 0.1
-  shootFreqMin: 2
-  shootFreqMax: 2.5
+  shootFreqMin: 0.7
+  shootFreqMax: 1
   chaseFreq: 0.75
   enemyAcc: 0.0008
 --- !u!1 &1706818737
