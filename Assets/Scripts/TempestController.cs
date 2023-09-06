@@ -479,6 +479,8 @@ public class TempestController : MonoBehaviour
         _xPressedTime = 0;
         _xHeld = false;
         _continuousShootCnt = 0;
+        canShoot = true;
+        canMove = true;
 
         // reset allies
         AllyController.ac.Allies.Clear();
