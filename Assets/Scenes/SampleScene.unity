@@ -15942,7 +15942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1396806560
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18679,7 +18679,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -18825,13 +18825,13 @@ MonoBehaviour:
   generateAfter: 2
   generateFreq: 1.5
   shootEnemyGenerateAfter: 10
-  shootEnemyProb: 0.3
+  shootEnemyProb: 0.4
   enemySpeed: 0.1
-  shootFreqMin: 0.7
-  shootFreqMax: 1
-  chaseFreq: 0.75
-  enemyAcc: 0.0008
-  rotateSpeed: 10
+  shootFreqMin: 0.5
+  shootFreqMax: 0.9
+  chaseFreq: 0.5
+  enemyAcc: 0.001
+  rotateSpeed: 15
 --- !u!1 &1706818737
 GameObject:
   m_ObjectHideFlags: 0
@@ -21699,9 +21699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 874541064793947875, guid: 2f733ff73d0ce524ca2f9cfc33e1b16a, type: 3}
-  playerBulletSpeed: 2.5
-  enemyBulletAcc: 0.0012
-  playerBulletAcc: -0.001
+  playerBulletSpeed: 7
+  enemyBulletAcc: 0.004
+  playerBulletAcc: -0.007
 --- !u!4 &2024239828
 Transform:
   m_ObjectHideFlags: 0
