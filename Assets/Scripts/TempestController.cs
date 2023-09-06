@@ -464,6 +464,15 @@ public class TempestController : MonoBehaviour
             life.SetActive(true);
         }
 
+        // reset healing effect
+        StopAllCoroutines();
+        foreach(GameObject h in healingEffect)
+        {
+            h.SetActive(false);
+        }
+
+
+
         // reset controls
         _movePressedTime = 0;
         _moveHeld = false;
