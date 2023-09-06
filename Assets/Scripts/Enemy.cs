@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
         else if (TempestController.tc.Loc > loc) { MoveOnLanes(false); }
         else { Debug.Log("Should Trigger"); }
 
-        EnemyController.ec.Enemies[loc].Add(gameObject);
+        
         Invoke("Chase", chaseFreq);
     }
 
@@ -186,6 +186,7 @@ public class Enemy : MonoBehaviour
         prefabParent.transform.rotation = Quaternion.Euler(new Vector3(0, 0, rangle));
         prefabParent.transform.localScale = new Vector3(scale, scale, 1);
         prefabParent.transform.position = destv;
+        EnemyController.ec.Enemies[loc].Add(gameObject);
         yield break;
 
 
