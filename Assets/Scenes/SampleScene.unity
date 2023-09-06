@@ -3296,7 +3296,7 @@ LineRenderer:
   m_SortingOrder: 1
   m_Positions:
   - {x: -0.40832952, y: -0.8142123, z: 0}
-  - {x: -3.18, y: 3.55442, z: 0}
+  - {x: -3.5510373, y: 4.0574727, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -3956,7 +3956,7 @@ LineRenderer:
   m_SortingOrder: 1
   m_Positions:
   - {x: -0.42343375, y: -0.96805966, z: 0}
-  - {x: -2.7291534, y: 1.8203554, z: 0}
+  - {x: -3.5931854, y: 2.9867988, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -5683,8 +5683,8 @@ Transform:
   m_GameObject: {fileID: 525734713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07, y: -0.06, z: 0.2}
-  m_LocalScale: {x: 2.6041613, y: 2.6041613, z: 2.6041613}
+  m_LocalPosition: {x: 0.0003, y: -0.0182, z: 0.2}
+  m_LocalScale: {x: 2.485468, y: 2.4855733, z: 2.6041613}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -12923,6 +12923,7 @@ GameObject:
   - component: {fileID: 1167601808}
   - component: {fileID: 1167601812}
   - component: {fileID: 1167601811}
+  - component: {fileID: 1167601813}
   m_Layer: 0
   m_Name: Tempest
   m_TagString: Untagged
@@ -13097,6 +13098,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &1167601813
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167601807}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ff04a1fe233143847aa4c12885b52749, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1168625455
 GameObject:
   m_ObjectHideFlags: 0

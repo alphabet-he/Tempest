@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     public float chaseFreq = 1.0f;
     //public float enemyAccelerateFreq = 0.25f;
     public float enemyAcc = 0.06f;
+    public float rotateSpeed = 10.0f;
     public static EnemyController ec;
     List<List<GameObject>> enemies = new List<List<GameObject>>();
     bool shootEnemy = false;
@@ -103,6 +104,7 @@ public class EnemyController : MonoBehaviour
         //enemy.transform.GetChild(0).GetComponent<Enemy>().ShootAfter = shootAfter;
         enemy.transform.GetChild(0).GetComponent<Enemy>().ChaseFreq = chaseFreq;
         enemy.transform.GetChild(0).GetComponent<Enemy>().EnemyAcc = enemyAcc;
+        enemy.transform.GetChild(0).GetComponent<Enemy>().RotateSpeed = rotateSpeed;
         //enemy.transform.GetChild(0).GetComponent<Enemy>().AccelerateFreq = enemyAccelerateFreq;
 
     }
