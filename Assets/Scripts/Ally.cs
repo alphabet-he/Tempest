@@ -6,16 +6,16 @@ public class Ally : MonoBehaviour
 {
     int loc;
     float fade = 1f;
-    float fadeSpeed;
+    //float fadeSpeed;
     bool isDissolving = false;
     bool isExploding = false;
     int groupLoc;
     public Animator Animator;
 
     public int Loc { get => loc; set => loc = value; }
-    public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
     public bool IsDissolving { get => isDissolving; set => isDissolving = value; }
     public int GroupLoc { get => groupLoc; set => groupLoc = value; }
+    public bool IsExploding { get => isExploding; set => isExploding = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -50,11 +50,11 @@ public class Ally : MonoBehaviour
 
     public void heal()
     {
-        if (IsDissolving && (!isExploding))
+        if (IsDissolving && (!IsExploding))
         {
             //fade = 0.6f;
             Animator.SetBool("IsDissolve", false);
-            isDissolving = false;
+            IsDissolving1 = false;
             StopCoroutine(Worsening());
             AudioManager.Instance.PlaySFX("ally_heal");
         }
@@ -104,7 +104,7 @@ public class Ally : MonoBehaviour
     {
         // explode animation
         Animator.SetBool("explode", true);
-        isExploding = true;
+        IsExploding = true;
         float waitTime = 0;
         foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips)
         {
@@ -153,7 +153,7 @@ public class Ally : MonoBehaviour
         Animator.SetBool("IsDissolve", true);
         yield return new WaitForSeconds(infectionTime);
 
-        isExploding = true;
+        IsExploding = true;
 
         yield return new WaitForSeconds(explodeTime);
         Animator.SetBool("IsDissolve", false);
@@ -170,7 +170,7 @@ public class Ally : MonoBehaviour
             gameObject.SetActive(false);
             AllyController.ac.Allies[loc].Remove(this);
             infect();
-            isDissolving = true;
+            IsDissolving1 = true;
         }
         
     }

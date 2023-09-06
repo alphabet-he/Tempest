@@ -47,9 +47,15 @@ public class EnemyController : MonoBehaviour
         {
             enemies.Add(new List<GameObject>());
         }
-        Invoke("setShootEnemyTrue", shootEnemyGenerateAfter);
+        ResetEnemyShoot();
         InvokeRepeating("NewEnemy", generateAfter, generateFreq);
 
+    }
+
+    public void ResetEnemyShoot()
+    {
+        shootEnemy = false;
+        Invoke("setShootEnemyTrue", shootEnemyGenerateAfter);
     }
 
     void setShootEnemyTrue()
@@ -80,14 +86,14 @@ public class EnemyController : MonoBehaviour
         if (isShootEnemy)
         {
             enemy = Instantiate(shootEnemyPrefab, startv, Quaternion.identity);
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = 0;
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = 0;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
         }
         else
         {
             enemy = Instantiate(enemyPrefab, startv, Quaternion.identity);
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = shootFreqMin;
-            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = shootFreqMax;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMin = 100;
+            enemy.transform.GetChild(0).GetComponent<Enemy>().ShootFreqMax = 100;
         }
         
 
