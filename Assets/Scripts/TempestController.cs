@@ -425,6 +425,8 @@ public class TempestController : MonoBehaviour
     public void EndGame()
     {
         Time.timeScale = 0; // pause game
+        int livingTime = Timer.timeLimit - Timer.TimeLeft;
+        score += livingTime * 10;
         foreach(List<Ally> group in AllyController.ac.Allies)
         {
             score += group.Count * allyRemainingScore; // calculate score
