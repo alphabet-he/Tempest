@@ -292,11 +292,7 @@ public class TempestController : MonoBehaviour
             {
                 if (!enemy.IsDestroyed())
                 {
-                    Destroy(enemy);
-                    AudioManager.Instance.PlaySFX("enemy_explode");
-                    Destroy(enemy.transform.parent.gameObject);
-                    score += shootEnemyScore;
-                    Debug.Log("Shoot enemy!");
+                    enemy.GetComponent<Enemy>().EnemyExplode();
                 }
             }
             EnemyController.ec.Enemies[loc + 1].Clear();

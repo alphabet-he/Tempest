@@ -165,7 +165,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator RotateOnLane(bool toLeft, float rangle, float scale, float scaleSpeed, Vector3 pivot, Vector3 destv, float t)
     {
-        int cnt = (int)(t / rotateUpdate);
+        if (isExploding) yield break;
 
         //for(int i=0; i<cnt; i++)
         while(Mathf.Abs(Mathf.Abs(prefabParent.transform.eulerAngles.z - rangle) - 180) > rotateSpeed)
