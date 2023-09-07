@@ -65,6 +65,8 @@ public class AllyController : MonoBehaviour
                 child.gameObject.GetComponent<Ally>().IsDissolving = false;
                 child.gameObject.GetComponent<Ally>().IsExploding = false;
                 child.gameObject.SetActive(true);
+                child.gameObject.GetComponent<Animator>().SetBool("IsDissolve", false);
+                child.gameObject.GetComponent<Animator>().SetBool("explode", false);
                 // put game object
                 if (j == 0)
                 {
