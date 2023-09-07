@@ -426,12 +426,18 @@ public class TempestController : MonoBehaviour
     {
         Time.timeScale = 0; // pause game
         int livingTime = Timer.timeLimit - Timer.TimeLeft;
-        score += livingTime * 10;
+        int killing = score;
+        int survival = livingTime * 10;
+        int protection = 0;
         foreach(List<Ally> group in AllyController.ac.Allies)
         {
-            score += group.Count * allyRemainingScore; // calculate score
+            protection += group.Count * allyRemainingScore; // calculate score
         }
-        endPanel.transform.Find("Score").GetComponent<TextMeshProUGUI>().text = score.ToString() ;
+        endPanel.transform.Find("Scores").Find("KilingScore").GetComponent<TextMeshProUGUI>().text = killing.ToString() ;
+        endPanel.transform.Find("Scores").Find("ProtectionScore").GetComponent<TextMeshProUGUI>().text = protection.ToString();
+        endPanel.transform.Find("Scores").Find("SurvivalScore").GetComponent<TextMeshProUGUI>().text = survival.ToString();
+        score = killing + survival + protection;
+        endPanel.transform.Find("Scores").Find("TotalScore").GetComponent<TextMeshProUGUI>().text = score.ToString();
         if (win)
         {
             endPanel.transform.Find("WinLose").GetComponent<Image>().sprite = winSprite;
