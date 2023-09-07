@@ -198,6 +198,7 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (isExploding) return;
         if (other.tag == "PlayerBullet")
         {
             Debug.Log("Shoot Enemy!");
@@ -213,10 +214,11 @@ public class Enemy : MonoBehaviour
     public void EnemyExplode()
     {
         isExploding = true;
-        StartCoroutine(explode());
+        
         AudioManager.Instance.PlaySFX("enemy_explode");
         TempestController.tc.Score += TempestController.tc.shootEnemyScore;
         TempestController.tc.SetScore();
+        Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
     }
 
     IEnumerator explode()
