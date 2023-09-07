@@ -198,7 +198,7 @@ public class Enemy : MonoBehaviour
         if (other.tag == "PlayerBullet")
         {
             Debug.Log("Shoot Enemy!");
-            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
+            StartCoroutine(explode());
             AudioManager.Instance.PlaySFX("enemy_explode");
             TempestController.tc.Score += TempestController.tc.shootEnemyScore;
             TempestController.tc.SetScore();
@@ -208,6 +208,25 @@ public class Enemy : MonoBehaviour
             Debug.Log("Catch Tempest!");
             Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy disappear
         }
+    }
+
+    IEnumerator explode()
+    {
+        Animator animator = GetComponent<Animator>();
+        
+        float waitTime = 0;
+        foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == "explodeEnemyS" || clip.name == "explodeEnemy")
+            {
+                waitTime = clip.length;
+                break;
+            }
+        }
+        animator.SetBool("IsExplode", true);
+        yield return new WaitForSeconds(waitTime);
+        animator.SetBool("IsExplode", false);
+        Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
     }
 
     void InitPos()
