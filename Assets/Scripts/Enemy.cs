@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     float rotateUpdate = 0.02f;
 
     bool onEdge = false;
+    bool isExploding = false;
 
     public float EnemySpeed { get => enemySpeed; set => enemySpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
@@ -77,7 +78,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onEdge) { return; }
+        if (onEdge)  return;
+        if (isExploding) return;
         enemySpeed += enemyAcc;
         Vector3 pos = prefabParent.transform.position;
         //Debug.Log(enemySpeed);
@@ -108,6 +110,7 @@ public class Enemy : MonoBehaviour
 
     void Chase()
     {
+        if (isExploding) return;
         EnemyController.ec.Enemies[loc].Remove(gameObject);
         if (TempestController.tc.Loc < loc) { MoveOnLanes(true); }
         else if (TempestController.tc.Loc > loc) { MoveOnLanes(false); }
@@ -162,7 +165,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator RotateOnLane(bool toLeft, float rangle, float scale, float scaleSpeed, Vector3 pivot, Vector3 destv, float t)
     {
-        int cnt = (int)(t / rotateUpdate);
+        if (isExploding) yield break;
 
         //for(int i=0; i<cnt; i++)
         while(Mathf.Abs(Mathf.Abs(prefabParent.transform.eulerAngles.z - rangle) - 180) > rotateSpeed)
@@ -195,19 +198,46 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (isExploding) return;
         if (other.tag == "PlayerBullet")
         {
             Debug.Log("Shoot Enemy!");
-            Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
-            AudioManager.Instance.PlaySFX("enemy_explode");
-            TempestController.tc.Score += TempestController.tc.shootEnemyScore;
-            TempestController.tc.SetScore();
+            EnemyExplode();
         }
         else if(other.tag == "Tempest")
         {
             Debug.Log("Catch Tempest!");
             Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy disappear
         }
+    }
+
+    public void EnemyExplode()
+    {
+        isExploding = true;
+        
+        AudioManager.Instance.PlaySFX("enemy_explode");
+        TempestController.tc.Score += TempestController.tc.shootEnemyScore;
+        TempestController.tc.SetScore();
+        Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
+    }
+
+    IEnumerator explode()
+    {
+        Animator animator = GetComponent<Animator>();
+        
+        float waitTime = 0;
+        foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == "explodeEnemyS" || clip.name == "explodeEnemy")
+            {
+                waitTime = clip.length;
+                break;
+            }
+        }
+        animator.SetBool("IsExplode", true);
+        yield return new WaitForSeconds(waitTime);
+        animator.SetBool("IsExplode", false);
+        Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy defeated
     }
 
     void InitPos()

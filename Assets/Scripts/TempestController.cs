@@ -280,11 +280,7 @@ public class TempestController : MonoBehaviour
             {
                 if (!enemy.IsDestroyed())
                 {
-                    Destroy(enemy);
-                    AudioManager.Instance.PlaySFX("enemy_explode");
-                    Destroy(enemy.transform.parent.gameObject);
-                    score += shootEnemyScore;
-                    Debug.Log("Shoot enemy!");
+                    enemy.GetComponent<Enemy>().EnemyExplode();
                 }
             }
             EnemyController.ec.Enemies[loc - 1].Clear();
@@ -296,11 +292,7 @@ public class TempestController : MonoBehaviour
             {
                 if (!enemy.IsDestroyed())
                 {
-                    Destroy(enemy);
-                    AudioManager.Instance.PlaySFX("enemy_explode");
-                    Destroy(enemy.transform.parent.gameObject);
-                    score += shootEnemyScore;
-                    Debug.Log("Shoot enemy!");
+                    enemy.GetComponent<Enemy>().EnemyExplode();
                 }
             }
             EnemyController.ec.Enemies[loc + 1].Clear();
@@ -358,7 +350,7 @@ public class TempestController : MonoBehaviour
         Vector3 v = GetMid(pad);
         gameObject.transform.position = v;
         float angle = RotateToCenter(gameObject, GetMid(startLanes[loc]));
-        if(loc >= maxLoc / 2)
+        if(loc > maxLoc / 2)
         {
             angle += 180;
         }
@@ -425,11 +417,19 @@ public class TempestController : MonoBehaviour
     public void EndGame()
     {
         Time.timeScale = 0; // pause game
+        int livingTime = Timer.timeLimit - Timer.TimeLeft;
+        int killing = score;
+        int survival = livingTime * 10;
+        int protection = 0;
         foreach(List<Ally> group in AllyController.ac.Allies)
         {
-            score += group.Count * allyRemainingScore; // calculate score
+            protection += group.Count * allyRemainingScore; // calculate score
         }
-        endPanel.transform.Find("Score").GetComponent<TextMeshProUGUI>().text = score.ToString() ;
+        endPanel.transform.Find("Scores").Find("KilingScore").GetComponent<TextMeshProUGUI>().text = killing.ToString() ;
+        endPanel.transform.Find("Scores").Find("ProtectionScore").GetComponent<TextMeshProUGUI>().text = protection.ToString();
+        endPanel.transform.Find("Scores").Find("SurvivalScore").GetComponent<TextMeshProUGUI>().text = survival.ToString();
+        score = killing + survival + protection;
+        endPanel.transform.Find("Scores").Find("TotalScore").GetComponent<TextMeshProUGUI>().text = score.ToString();
         if (win)
         {
             endPanel.transform.Find("WinLose").GetComponent<Image>().sprite = winSprite;
@@ -464,12 +464,23 @@ public class TempestController : MonoBehaviour
             life.SetActive(true);
         }
 
+        // reset healing effect
+        StopAllCoroutines();
+        foreach(GameObject h in healingEffect)
+        {
+            h.SetActive(false);
+        }
+
+
+
         // reset controls
         _movePressedTime = 0;
         _moveHeld = false;
         _xPressedTime = 0;
         _xHeld = false;
         _continuousShootCnt = 0;
+        canShoot = true;
+        canMove = true;
 
         // reset allies
         AllyController.ac.Allies.Clear();
