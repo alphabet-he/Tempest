@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     float rotateUpdate = 0.02f;
 
     bool onEdge = false;
+    bool isExploding = false;
 
     public float EnemySpeed { get => enemySpeed; set => enemySpeed = value; }
     public Vector3 Endpoint { get => endpoint; set => endpoint = value; }
@@ -77,7 +78,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (onEdge) { return; }
+        if (onEdge)  return;
+        if (isExploding) return;
         enemySpeed += enemyAcc;
         Vector3 pos = prefabParent.transform.position;
         //Debug.Log(enemySpeed);
@@ -108,6 +110,7 @@ public class Enemy : MonoBehaviour
 
     void Chase()
     {
+        if (isExploding) return;
         EnemyController.ec.Enemies[loc].Remove(gameObject);
         if (TempestController.tc.Loc < loc) { MoveOnLanes(true); }
         else if (TempestController.tc.Loc > loc) { MoveOnLanes(false); }
@@ -198,16 +201,22 @@ public class Enemy : MonoBehaviour
         if (other.tag == "PlayerBullet")
         {
             Debug.Log("Shoot Enemy!");
-            StartCoroutine(explode());
-            AudioManager.Instance.PlaySFX("enemy_explode");
-            TempestController.tc.Score += TempestController.tc.shootEnemyScore;
-            TempestController.tc.SetScore();
+            EnemyExplode();
         }
         else if(other.tag == "Tempest")
         {
             Debug.Log("Catch Tempest!");
             Destroy(gameObject); Destroy(gameObject.transform.parent.gameObject); // enemy disappear
         }
+    }
+
+    public void EnemyExplode()
+    {
+        isExploding = true;
+        StartCoroutine(explode());
+        AudioManager.Instance.PlaySFX("enemy_explode");
+        TempestController.tc.Score += TempestController.tc.shootEnemyScore;
+        TempestController.tc.SetScore();
     }
 
     IEnumerator explode()
